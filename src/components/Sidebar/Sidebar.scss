@@ -1,0 +1,24 @@
+.sidebar {
+  padding: 55px 0 0 32px;
+  width: 287px;
+  height: 100%;
+  border-radius: 56px 56px 0 56px;
+  background-image: linear-gradient(to bottom, #54d3c2, #30898a);
+  &__logo {
+    width: 64px;
+    height: 38px;
+    background-image: url("h2o-logo.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  &__navigation {
+    margin-top: 82px;
+    ul {
+      display: flex;
+      flex-direction: column;
+      margin-left: 0;
+      padding-left: 0;
+      list-style: none;
+    }
+  }
+}
