@@ -1,3 +1,16 @@
+@font-face {
+  font-family: "ProximaNova";
+  src: local("ProximaNova Regular"), local("ProximaNova-Regular"),
+    url("assets/fonts/proximanova_regular.ttf") format("ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "ProximaNova";
+  src: local("ProximaNova Bold"), local("ProximaNova-Bold"),
+    url("assets/fonts/proximanova_bold.ttf") format("ttf");
+  font-weight: normal;
+}
 html,
 body {
   margin: 0;
