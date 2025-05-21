@@ -1,3 +1,72 @@
 .summary-report {
+  display: grid;
+  padding: 28px 40px 40px 39px;
+  border-radius: 56px 56px 0 0;
+  background-color: #f8f8f8;
+  column-gap: 39px;
+
+  grid-template-columns: repeat(3, 264px) 1fr;
+  grid-template-rows: 63px 168px 426px;
+  grid-template-areas:
+    "heading heading heading heading"
+    "total b2b b2c problems"
+    "graph graph graph problems";
   grid-area: summary-report;
+}
+
+.heading {
+  color: #323f47;
+  text-align: left;
+  letter-spacing: -0.56px;
+  font-weight: 800;
+  font-style: normal;
+  font-stretch: normal;
+  font-size: 28px;
+  line-height: 1.57;
+
+  grid-area: heading;
+}
+
+.total {
+  width: 264px;
+  height: 168px;
+  border-radius: 24px;
+  background-color: #54d3c2;
+
+  grid-area: total;
+}
+
+.b2b {
+  width: 264px;
+  height: 168px;
+  border-radius: 24px;
+  background-color: #fff;
+
+  grid-area: b2b;
+}
+.b2c {
+  width: 264px;
+  height: 168px;
+  border-radius: 24px;
+  background-color: #fff;
+
+  grid-area: b2c;
+}
+.problems {
+  width: 414px;
+  height: 626px;
+  border-radius: 32px;
+  background-color: #fff;
+
+  grid-area: problems;
+}
+
+.graph {
+  margin-top: 32px;
+  width: 869px;
+  height: 426px;
+  border-radius: 32px;
+  background-color: #fff;
+
+  grid-area: graph;
 }
