@@ -1,3 +1,4 @@
+import Problems from "../Problems/Problems";
 import "./SummaryReport.scss";
 export default function SummaryReport() {
   return (
@@ -6,7 +7,7 @@ export default function SummaryReport() {
       <div className="total">Сумма</div>
       <div className="b2b">b2b</div>
       <div className="b2c">b2c</div>
-      <div className="problems">Проблемы</div>
+      <Problems />
       <div className="graph">График</div>
     </div>
   );

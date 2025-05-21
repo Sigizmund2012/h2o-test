@@ -1,0 +1,52 @@
+.problems {
+  padding: 17px 32px;
+  width: 414px;
+  border-radius: 32px;
+  background-color: #fff;
+
+  grid-area: problems;
+  &__heading {
+    margin-bottom: 11px;
+    color: #2d4258;
+    text-align: left;
+    letter-spacing: -0.56px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    font-size: 20px;
+    line-height: 2.2;
+  }
+  &__item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12.5px;
+    &-icon {
+      width: 30px;
+      height: 30px;
+    }
+    &-content {
+      margin-left: 16px;
+    }
+    &-title {
+      margin-bottom: 2px;
+      color: #6d7986;
+      text-align: left;
+      letter-spacing: -0.56px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      font-size: 14px;
+      line-height: 1.29;
+    }
+    &-description {
+      color: #323f47;
+      text-align: left;
+      letter-spacing: normal;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+  }
+}

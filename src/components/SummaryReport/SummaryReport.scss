@@ -6,7 +6,7 @@
   column-gap: 39px;
 
   grid-template-columns: repeat(3, 264px) 1fr;
-  grid-template-rows: 63px 168px 426px;
+  grid-template-rows: 63px 168px 1fr;
   grid-template-areas:
     "heading heading heading heading"
     "total b2b b2c problems"
@@ -51,14 +51,6 @@
   background-color: #fff;
 
   grid-area: b2c;
-}
-.problems {
-  width: 414px;
-  height: 626px;
-  border-radius: 32px;
-  background-color: #fff;
-
-  grid-area: problems;
 }
 
 .graph {
