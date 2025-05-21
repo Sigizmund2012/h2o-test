@@ -1,3 +1,57 @@
 .user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 44px;
+
   grid-area: user;
+  &__badge {
+    display: flex;
+    flex-direction: column;
+    margin-top: -8px;
+    margin-left: 21px;
+  }
+  &__name {
+    color: #323f47;
+    text-align: left;
+    letter-spacing: 0.44px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+  }
+  &__position {
+    color: #989fa3;
+    text-align: left;
+    letter-spacing: 0.15px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    font-size: 14px;
+  }
+  &__dropdown {
+    margin-right: 38px;
+    margin-left: auto;
+    width: 16px;
+    height: 8px;
+    background: url("dropdown.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  &__profile {
+    position: absolute;
+    top: 70%;
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    a {
+      display: block;
+      padding: 5px;
+      color: #000;
+      text-decoration: none;
+    }
+  }
+  &_profile-show {
+    display: flex;
+  }
 }
