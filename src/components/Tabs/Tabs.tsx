@@ -3,17 +3,17 @@ export default function Tabs() {
   return (
     <div className="tabs">
       <div className="tabs__arrows">
-        <div className="tabs__arrow-left">Левая стрелка</div>
-        <div className="tabs__arrow-right">Правая стрелка</div>
+        <a className="tabs__arrow-left" href="#"></a>
+        <a className="tabs__arrow-right tabs_arrow-right-active" href="#"></a>
       </div>
       <div className="tabs__tab">
+        <a href="">Свод данных по сотрудникам</a>
+      </div>
+      <div className="tabs__tab tabs_tab-active">
         <a href="">Сводный отчёт внутри компании</a>
       </div>
       <div className="tabs__tab">
-        <a href="">Сводный отчёт внутри компании</a>
-      </div>
-      <div className="tabs__tab">
-        <a href="">Сводный отчёт внутри компании</a>
+        <a href="">Сводный отчет по сдел</a>
       </div>
     </div>
   );
