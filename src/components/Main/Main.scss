@@ -2,11 +2,12 @@
   display: grid;
   border-radius: 56px 0 0 0;
   background-color: #fff;
+  column-gap: 36px;
 
   grid-area: main;
   grid-template-columns: 923px 443px;
   grid-template-rows: 154px 1fr;
-  gap: 36px;
+  row-gap: 0;
   grid-template-areas:
     "tabs user"
     "summary-report summary-report";
