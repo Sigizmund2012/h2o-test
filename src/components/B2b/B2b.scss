@@ -1,0 +1,70 @@
+.b2b {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 264px;
+  height: 168px;
+  border-radius: 24px;
+  background-color: #fff;
+
+  grid-area: b2b;
+  &__financial-direction {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 32px;
+    width: 144px;
+    height: 36px;
+    border-radius: 24px;
+    background-color: rgba(84, 211, 194, 0.15);
+  }
+  &__arrow {
+    margin: 0 4px 1px 0;
+    width: 19px;
+    height: 21px;
+    background-image: url("arrow-up-greene.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    letter-spacing: -0.56px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    font-size: 17px;
+    line-height: 2.59;
+  }
+  &__percent {
+    color: #54d3c2;
+    text-align: left;
+    letter-spacing: -0.56px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    font-size: 16px;
+    line-height: 2.75;
+  }
+  &__amount {
+    margin-top: 20px;
+    width: 158px;
+    height: 44px;
+    color: #323f47;
+    text-align: left;
+    letter-spacing: -0.56px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    font-size: 28px;
+  }
+  &__total {
+    margin-top: -10px;
+    width: 42px;
+    height: 44px;
+    color: #323f47;
+    text-align: center;
+    letter-spacing: -0.56px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    font-size: 16px;
+  }
+}
