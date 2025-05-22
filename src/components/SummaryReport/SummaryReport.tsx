@@ -1,5 +1,6 @@
 import Total from "../Total/Total";
 import B2b from "../B2b/B2b";
+import B2c from "../B2c/B2c";
 import Problems from "../Problems/Problems";
 import "./SummaryReport.scss";
 export default function SummaryReport() {
@@ -8,7 +9,7 @@ export default function SummaryReport() {
       <h1 className="heading">Сводный отчет</h1>
       <Total />
       <B2b />
-      <div className="b2c">b2c</div>
+      <B2c />
       <Problems />
       <div className="graph">График</div>
     </div>
