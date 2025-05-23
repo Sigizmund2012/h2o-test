@@ -150,15 +150,7 @@ export default function Chart() {
       </div>
       <div className="chart__body">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={preparedData}
-            margin={{
-              top: 10,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
-          >
+          <LineChart data={preparedData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
@@ -199,23 +191,38 @@ export default function Chart() {
         <div className="chart__labels">
           <div className="chart__label">
             <div className="chart__label-icon chart__label-icon_revenue"></div>
-            <div className="chart__label-title">B2B Доход</div>
-            <div className="chart__label-amount">80%</div>
+            <div className="chart__label-wrapper">
+              <div className="chart__label-title">Выручка</div>
+              <div className="chart__label-amount">₽ 8 615 253</div>
+            </div>
           </div>
           <div className="chart__label">
-            <div className="chart__label-icon chart__label-icon_expenses"></div>
-            <div className="chart__label-title">B2B Расход</div>
-            <div className="chart__label-amount">65%</div>
+            <div className="chart__label-icon chart__label-icon_costs"></div>
+            <div className="chart__label-wrapper">
+              <div className="chart__label-title">Затраты</div>
+              <div className="chart__label-amount">₽ 10 157 764</div>
+            </div>
           </div>
           <div className="chart__label">
             <div className="chart__label-icon chart__label-icon_profit"></div>
-            <div className="chart__label-title">B2C Доход</div>
-            <div className="chart__label-amount">45%</div>
+            <div className="chart__label-wrapper">
+              <div className="chart__label-title">Прибыль</div>
+              <div className="chart__label-amount">₽ -1 542 511</div>
+            </div>
           </div>
           <div className="chart__label">
-            <div className="chart__label-icon chart__label-icon_debt"></div>
-            <div className="chart__label-title">B2C Расход</div>
-            <div className="chart__label-amount">30%</div>
+            <div className="chart__label-icon chart__label-icon_indebtedness"></div>
+            <div className="chart__label-wrapper">
+              <div className="chart__label-title">Задолженность</div>
+              <div className="chart__label-amount">₽ 0</div>
+            </div>
+          </div>
+          <div className="chart__label">
+            <div className="chart__label-icon chart__label-icon_total"></div>
+            <div className="chart__label-wrapper">
+              <div className="chart__label-title">Итог</div>
+              <div className="chart__label-amount">₽ 10 157 764</div>
+            </div>
           </div>
         </div>
       </div>

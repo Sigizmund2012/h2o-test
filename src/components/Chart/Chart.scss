@@ -67,7 +67,8 @@
 
   &__body {
     margin-top: 24px;
-    height: 300px;
+    width: 782px;
+    height: 254px;
   }
 
   &__bottom {
@@ -77,55 +78,66 @@
   &__labels {
     display: flex;
     justify-content: space-between;
-
-    gap: 16px;
   }
 
   &__label {
     display: flex;
     align-items: center;
-    padding: 12px 16px;
-    border-radius: 16px;
-    background-color: #f5f5f5;
-
-    gap: 8px;
+    flex-grow: 1;
+    justify-content: flex-start;
+    background-size: cover;
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 9px;
+    }
 
     &-icon {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+      width: 28px;
+      height: 28px;
 
       &_revenue {
-        background-color: #1890ff;
+        background: url("revenue.svg") center no-repeat;
       }
 
-      &_expenses {
-        background-color: #ff4d4f;
+      &_costs {
+        background: url("costs.svg") center no-repeat;
       }
 
       &_profit {
-        background-color: #52c41a;
+        background: url("profit.svg") center no-repeat;
       }
 
-      &_debt {
-        background-color: #faad14;
+      &_indebtedness {
+        background: url("indebtedness.svg") center no-repeat;
       }
 
       &_total {
-        background-color: #722ed1;
+        background: url("total.svg") center no-repeat;
       }
     }
 
     &-title {
-      color: #8c8c8c;
-      font-weight: 400;
+      color: #6d7986;
+      text-align: left;
+      letter-spacing: -0.56px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
       font-size: 14px;
+      line-height: 1.29;
     }
 
     &-amount {
-      color: #262626;
-      font-weight: 600;
-      font-size: 14px;
+      color: #323f47;
+      text-align: left;
+      letter-spacing: normal;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      font-size: 16px;
+      line-height: 1.2;
     }
   }
 }
