@@ -115,29 +115,35 @@ export default function Chart() {
     <div className="chart">
       <h2 className="chart__heading">Общая статистика</h2>
       <ul className="chart__intervals">
-        <li
-          className={`chart__interval ${
-            activeInterval === "week" ? "chart__interval_active" : ""
-          }`}
-          onClick={() => setActiveInterval("week")}
-        >
-          Неделя
+        <li className="chart__interval-item">
+          <button
+            className={`chart__interval ${
+              activeInterval === "week" ? "chart__interval_active" : ""
+            }`}
+            onClick={() => setActiveInterval("week")}
+          >
+            Неделя
+          </button>
         </li>
-        <li
-          className={`chart__interval ${
-            activeInterval === "month" ? "chart__interval_active" : ""
-          }`}
-          onClick={() => setActiveInterval("month")}
-        >
-          Месяц
+        <li className="chart__interval-item">
+          <button
+            className={`chart__interval ${
+              activeInterval === "month" ? "chart__interval_active" : ""
+            }`}
+            onClick={() => setActiveInterval("month")}
+          >
+            Месяц
+          </button>
         </li>
-        <li
-          className={`chart__interval ${
-            activeInterval === "year" ? "chart__interval_active" : ""
-          }`}
-          onClick={() => setActiveInterval("year")}
-        >
-          Год
+        <li className="chart__interval-item">
+          <button
+            className={`chart__interval ${
+              activeInterval === "year" ? "chart__interval_active" : ""
+            }`}
+            onClick={() => setActiveInterval("year")}
+          >
+            Год
+          </button>
         </li>
       </ul>
       <div className="chart__body">
