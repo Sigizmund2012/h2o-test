@@ -7,109 +7,170 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
 } from "recharts";
 import "./Chart.scss";
 
-// Типизация данных
 interface DataItem {
   division: string;
   date: string;
   amount: string;
-  type: "income" | "expense";
+  type: "income" | "expenses";
 }
 
 // Тестовые данные
 const sampleData: DataItem[] = [
   {
     division: "B2B",
-    date: "2023-09-25T05:00:00.000+00:00",
-    amount: "20000",
-    type: "expense",
-  },
-  {
-    division: "B2C",
-    date: "2023-09-24T05:00:00.000+00:00",
-    amount: "14000",
+    date: "2023-01-01T05:00:00.000+00:00",
+    amount: "850000",
     type: "income",
   },
   {
     division: "B2B",
-    date: "2023-10-01T05:00:00.000+00:00",
-    amount: "25000",
-    type: "expense",
+    date: "2023-01-01T05:00:00.000+00:00",
+    amount: "450000",
+    type: "expenses",
   },
   {
     division: "B2C",
-    date: "2023-10-02T05:00:00.000+00:00",
-    amount: "16000",
+    date: "2023-01-01T05:00:00.000+00:00",
+    amount: "650000",
     type: "income",
   },
+  {
+    division: "B2C",
+    date: "2023-01-01T05:00:00.000+00:00",
+    amount: "350000",
+    type: "expenses",
+  },
+  {
+    division: "B2B",
+    date: "2023-02-01T05:00:00.000+00:00",
+    amount: "920000",
+    type: "income",
+  },
+  {
+    division: "B2B",
+    date: "2023-02-01T05:00:00.000+00:00",
+    amount: "480000",
+    type: "expenses",
+  },
+  {
+    division: "B2C",
+    date: "2023-02-01T05:00:00.000+00:00",
+    amount: "720000",
+    type: "income",
+  },
+  {
+    division: "B2C",
+    date: "2023-02-01T05:00:00.000+00:00",
+    amount: "380000",
+    type: "expenses",
+  },
+  // Добавляем данные за каждый месяц 2023 года...
 ];
+
+interface TooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    name: string;
+    value: number;
+    color: string;
+  }>;
+  label?: string;
+}
+
+// Форматирование чисел в рубли
+const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat("ru-RU", {
+    style: "currency",
+    currency: "RUB",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
+// Форматирование даты
+const formatDate = (dateStr: string) => {
+  return new Date(dateStr).toLocaleDateString("ru-RU", {
+    month: "short",
+    year: "2-digit",
+  });
+};
+
+// Кастомный тултип
+const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="chart__tooltip">
+        <p className="chart__tooltip-label">{label}</p>
+        {payload.map((entry) => (
+          <p key={entry.name} style={{ color: entry.color }}>
+            {entry.name}: {formatCurrency(entry.value)}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
 
 type Interval = "week" | "month" | "year";
 
 export default function Chart() {
-  const [activeInterval, setActiveInterval] = useState<Interval>("week");
-
-  // Группировка данных по периодам
-  const groupByTimeUnit = (timestamp: number, unit: Interval) => {
-    const date = new Date(timestamp);
-    let result: number;
-
-    switch (unit) {
-      case "week": {
-        const firstDayOfWeek = new Date(date);
-        firstDayOfWeek.setDate(date.getDate() - date.getDay());
-        firstDayOfWeek.setHours(0, 0, 0, 0);
-        result = firstDayOfWeek.getTime();
-        break;
-      }
-      case "month":
-        result = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
-        break;
-      case "year":
-        result = new Date(date.getFullYear(), 0, 1).getTime();
-        break;
-      default:
-        result = timestamp;
-    }
-
-    return result;
-  };
+  const [activeInterval, setActiveInterval] = useState<Interval>("month");
 
   // Подготовка данных для графика
   const preparedData = useMemo(() => {
-    const groupedData: Record<number, Record<string, number>> = {};
+    const groupedData: Record<
+      string,
+      {
+        revenue: number;
+        costs: number;
+        profit: number;
+        indebtedness: number;
+        total: number;
+      }
+    > = {};
 
+    // Группируем данные по датам
     sampleData.forEach((item) => {
-      const timestamp = new Date(item.date).getTime();
-      const roundedDate = groupByTimeUnit(timestamp, activeInterval);
-      const key = `${item.division}_${item.type}`;
-      const amount = parseFloat(item.amount);
-
-      if (!groupedData[roundedDate]) {
-        groupedData[roundedDate] = {};
+      const date = item.date.split("T")[0];
+      if (!groupedData[date]) {
+        groupedData[date] = {
+          revenue: 0,
+          costs: 0,
+          profit: 0,
+          indebtedness: 0,
+          total: 0,
+        };
       }
 
-      groupedData[roundedDate][key] =
-        (groupedData[roundedDate][key] || 0) + amount;
+      const amount = parseFloat(item.amount);
+
+      if (item.type === "income") {
+        groupedData[date].revenue += amount;
+        groupedData[date].total += amount;
+      } else {
+        groupedData[date].costs += amount;
+        groupedData[date].total -= amount;
+      }
+    });
+
+    // Вычисляем прибыль и задолженность
+    Object.keys(groupedData).forEach((date) => {
+      const data = groupedData[date];
+      data.profit = data.revenue - data.costs;
+      data.indebtedness = Math.max(0, -data.total); // Если общий баланс отрицательный, это задолженность
     });
 
     return Object.entries(groupedData)
       .map(([date, values]) => ({
-        date: new Date(parseInt(date)).toLocaleDateString("ru-RU", {
-          day: "2-digit",
-          month: "short",
-          year: "2-digit",
-        }),
-        B2B_income: values.B2B_income || 0,
-        B2B_expense: values.B2B_expense || 0,
-        B2C_income: values.B2C_income || 0,
-        B2C_expense: values.B2C_expense || 0,
+        date: formatDate(date),
+        ...values,
       }))
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  }, [activeInterval]);
+  }, []);
 
   return (
     <div className="chart">
@@ -151,38 +212,59 @@ export default function Chart() {
       <div className="chart__body">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={preparedData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
+            <CartesianGrid vertical={false} stroke="#E8E8E8" />
+            <XAxis
+              dataKey="date"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: "#8C8C8C" }}
+            />
+            <YAxis hide={true} />
+            <Tooltip content={<CustomTooltip />} />
             <Line
               type="monotone"
-              dataKey="B2B_income"
-              name="B2B Доход"
-              stroke="#1890FF"
+              dataKey="revenue"
+              name="Выручка"
+              stroke="#73CF7A"
+              strokeWidth={2}
               dot={false}
+              activeDot={{ r: 4, fill: "#73CF7A" }}
             />
             <Line
               type="monotone"
-              dataKey="B2B_expense"
-              name="B2B Расход"
-              stroke="#FF4D4F"
+              dataKey="costs"
+              name="Затраты"
+              stroke="#30C7DC"
+              strokeWidth={2}
               dot={false}
+              activeDot={{ r: 4, fill: "#30C7DC" }}
             />
             <Line
               type="monotone"
-              dataKey="B2C_income"
-              name="B2C Доход"
-              stroke="#52C41A"
+              dataKey="profit"
+              name="Прибыль"
+              stroke="#45AAF2"
+              strokeWidth={2}
               dot={false}
+              activeDot={{ r: 4, fill: "#45AAF2" }}
             />
             <Line
               type="monotone"
-              dataKey="B2C_expense"
-              name="B2C Расход"
-              stroke="#FAAD14"
+              dataKey="indebtedness"
+              name="Задолженность"
+              stroke="#F5E230"
+              strokeWidth={2}
               dot={false}
+              activeDot={{ r: 4, fill: "#F5E230" }}
+            />
+            <Line
+              type="monotone"
+              dataKey="total"
+              name="Итог"
+              stroke="#AC74FC"
+              strokeWidth={2}
+              dot={false}
+              activeDot={{ r: 4, fill: "#AC74FC" }}
             />
           </LineChart>
         </ResponsiveContainer>

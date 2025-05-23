@@ -140,4 +140,23 @@
       line-height: 1.2;
     }
   }
+
+  &__tooltip {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+    &-label {
+      margin: 0 0 8px;
+      color: #8c8c8c;
+      font-size: 12px;
+    }
+
+    p {
+      margin: 4px 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
 }
