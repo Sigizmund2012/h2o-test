@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import "./Graph.scss";
+import "./Chart.scss";
 
 // Типизация данных
 interface DataItem {
@@ -49,7 +49,7 @@ const sampleData: DataItem[] = [
 
 type Interval = "week" | "month" | "year";
 
-export default function Graph() {
+export default function Chart() {
   const [activeInterval, setActiveInterval] = useState<Interval>("week");
 
   // Группировка данных по периодам
@@ -112,35 +112,35 @@ export default function Graph() {
   }, [activeInterval, sampleData]);
 
   return (
-    <div className="graph">
-      <h2 className="graph__heading">Общая статистика</h2>
-      <ul className="graph__intervals">
+    <div className="chart">
+      <h2 className="chart__heading">Общая статистика</h2>
+      <ul className="chart__intervals">
         <li
-          className={`graph__interval ${
-            activeInterval === "week" ? "graph__interval_active" : ""
+          className={`chart__interval ${
+            activeInterval === "week" ? "chart__interval_active" : ""
           }`}
           onClick={() => setActiveInterval("week")}
         >
           Неделя
         </li>
         <li
-          className={`graph__interval ${
-            activeInterval === "month" ? "graph__interval_active" : ""
+          className={`chart__interval ${
+            activeInterval === "month" ? "chart__interval_active" : ""
           }`}
           onClick={() => setActiveInterval("month")}
         >
           Месяц
         </li>
         <li
-          className={`graph__interval ${
-            activeInterval === "year" ? "graph__interval_active" : ""
+          className={`chart__interval ${
+            activeInterval === "year" ? "chart__interval_active" : ""
           }`}
           onClick={() => setActiveInterval("year")}
         >
           Год
         </li>
       </ul>
-      <div className="graph__body">
+      <div className="chart__body">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={preparedData}
@@ -187,27 +187,27 @@ export default function Graph() {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <div className="graph__bottom">
-        <div className="graph__labels">
-          <div className="graph__label">
-            <div className="graph__label-icon graph__label-icon_revenue"></div>
-            <div className="graph__label-title">B2B Доход</div>
-            <div className="graph__label-amount">80%</div>
+      <div className="chart__bottom">
+        <div className="chart__labels">
+          <div className="chart__label">
+            <div className="chart__label-icon chart__label-icon_revenue"></div>
+            <div className="chart__label-title">B2B Доход</div>
+            <div className="chart__label-amount">80%</div>
           </div>
-          <div className="graph__label">
-            <div className="graph__label-icon graph__label-icon_expenses"></div>
-            <div className="graph__label-title">B2B Расход</div>
-            <div className="graph__label-amount">65%</div>
+          <div className="chart__label">
+            <div className="chart__label-icon chart__label-icon_expenses"></div>
+            <div className="chart__label-title">B2B Расход</div>
+            <div className="chart__label-amount">65%</div>
           </div>
-          <div className="graph__label">
-            <div className="graph__label-icon graph__label-icon_profit"></div>
-            <div className="graph__label-title">B2C Доход</div>
-            <div className="graph__label-amount">45%</div>
+          <div className="chart__label">
+            <div className="chart__label-icon chart__label-icon_profit"></div>
+            <div className="chart__label-title">B2C Доход</div>
+            <div className="chart__label-amount">45%</div>
           </div>
-          <div className="graph__label">
-            <div className="graph__label-icon graph__label-icon_debt"></div>
-            <div className="graph__label-title">B2C Расход</div>
-            <div className="graph__label-amount">30%</div>
+          <div className="chart__label">
+            <div className="chart__label-icon chart__label-icon_debt"></div>
+            <div className="chart__label-title">B2C Расход</div>
+            <div className="chart__label-amount">30%</div>
           </div>
         </div>
       </div>
