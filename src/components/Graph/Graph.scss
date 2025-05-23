@@ -1,9 +1,110 @@
 .graph {
+  display: flex;
+  flex-direction: column;
   margin-top: 32px;
-  width: 869px;
-  height: 426px;
+  padding: 24px;
   border-radius: 32px;
   background-color: #fff;
-
   grid-area: graph;
+
+  &__heading {
+    margin: 0;
+    color: #262626;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  &__intervals {
+    display: flex;
+    gap: 12px;
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__interval {
+    padding: 8px 16px;
+    border-radius: 24px;
+    color: #8c8c8c;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+
+    &_active {
+      background-color: #1890ff;
+      color: #fff;
+
+      &:hover {
+        background-color: #1890ff;
+      }
+    }
+  }
+
+  &__body {
+    margin-top: 24px;
+    height: 300px;
+  }
+
+  &__bottom {
+    margin-top: 24px;
+  }
+
+  &__labels {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background-color: #f5f5f5;
+
+    &-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+
+      &_revenue {
+        background-color: #1890ff;
+      }
+
+      &_expenses {
+        background-color: #ff4d4f;
+      }
+
+      &_profit {
+        background-color: #52c41a;
+      }
+
+      &_debt {
+        background-color: #faad14;
+      }
+
+      &_total {
+        background-color: #722ed1;
+      }
+    }
+
+    &-title {
+      color: #8c8c8c;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    &-amount {
+      color: #262626;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
 }

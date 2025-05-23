@@ -1,4 +1,216 @@
+import { useState, useMemo } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 import "./Graph.scss";
+
+// Типизация данных
+interface DataItem {
+  division: string;
+  date: string;
+  amount: string;
+  type: "income" | "expense";
+}
+
+// Тестовые данные
+const sampleData: DataItem[] = [
+  {
+    division: "B2B",
+    date: "2023-09-25T05:00:00.000+00:00",
+    amount: "20000",
+    type: "expense",
+  },
+  {
+    division: "B2C",
+    date: "2023-09-24T05:00:00.000+00:00",
+    amount: "14000",
+    type: "income",
+  },
+  {
+    division: "B2B",
+    date: "2023-10-01T05:00:00.000+00:00",
+    amount: "25000",
+    type: "expense",
+  },
+  {
+    division: "B2C",
+    date: "2023-10-02T05:00:00.000+00:00",
+    amount: "16000",
+    type: "income",
+  },
+];
+
+type Interval = "week" | "month" | "year";
+
 export default function Graph() {
-  return <div className="graph">График</div>;
+  const [activeInterval, setActiveInterval] = useState<Interval>("week");
+
+  // Группировка данных по периодам
+  const groupByTimeUnit = (timestamp: number, unit: Interval) => {
+    const date = new Date(timestamp);
+    let result: number;
+
+    switch (unit) {
+      case "week": {
+        const firstDayOfWeek = new Date(date);
+        firstDayOfWeek.setDate(date.getDate() - date.getDay());
+        firstDayOfWeek.setHours(0, 0, 0, 0);
+        result = firstDayOfWeek.getTime();
+        break;
+      }
+      case "month":
+        result = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
+        break;
+      case "year":
+        result = new Date(date.getFullYear(), 0, 1).getTime();
+        break;
+      default:
+        result = timestamp;
+    }
+
+    return result;
+  };
+
+  // Подготовка данных для графика
+  const preparedData = useMemo(() => {
+    const groupedData: Record<number, Record<string, number>> = {};
+
+    sampleData.forEach((item) => {
+      const timestamp = new Date(item.date).getTime();
+      const roundedDate = groupByTimeUnit(timestamp, activeInterval);
+      const key = `${item.division}_${item.type}`;
+      const amount = parseFloat(item.amount);
+
+      if (!groupedData[roundedDate]) {
+        groupedData[roundedDate] = {};
+      }
+
+      groupedData[roundedDate][key] =
+        (groupedData[roundedDate][key] || 0) + amount;
+    });
+
+    return Object.entries(groupedData)
+      .map(([date, values]) => ({
+        date: new Date(parseInt(date)).toLocaleDateString("ru-RU", {
+          day: "2-digit",
+          month: "short",
+          year: "2-digit",
+        }),
+        B2B_income: values.B2B_income || 0,
+        B2B_expense: values.B2B_expense || 0,
+        B2C_income: values.B2C_income || 0,
+        B2C_expense: values.B2C_expense || 0,
+      }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  }, [activeInterval, sampleData]);
+
+  return (
+    <div className="graph">
+      <h2 className="graph__heading">Общая статистика</h2>
+      <ul className="graph__intervals">
+        <li
+          className={`graph__interval ${
+            activeInterval === "week" ? "graph__interval_active" : ""
+          }`}
+          onClick={() => setActiveInterval("week")}
+        >
+          Неделя
+        </li>
+        <li
+          className={`graph__interval ${
+            activeInterval === "month" ? "graph__interval_active" : ""
+          }`}
+          onClick={() => setActiveInterval("month")}
+        >
+          Месяц
+        </li>
+        <li
+          className={`graph__interval ${
+            activeInterval === "year" ? "graph__interval_active" : ""
+          }`}
+          onClick={() => setActiveInterval("year")}
+        >
+          Год
+        </li>
+      </ul>
+      <div className="graph__body">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={preparedData}
+            margin={{
+              top: 10,
+              right: 30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="B2B_income"
+              name="B2B Доход"
+              stroke="#1890FF"
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="B2B_expense"
+              name="B2B Расход"
+              stroke="#FF4D4F"
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="B2C_income"
+              name="B2C Доход"
+              stroke="#52C41A"
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="B2C_expense"
+              name="B2C Расход"
+              stroke="#FAAD14"
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="graph__bottom">
+        <div className="graph__labels">
+          <div className="graph__label">
+            <div className="graph__label-icon graph__label-icon_revenue"></div>
+            <div className="graph__label-title">B2B Доход</div>
+            <div className="graph__label-amount">80%</div>
+          </div>
+          <div className="graph__label">
+            <div className="graph__label-icon graph__label-icon_expenses"></div>
+            <div className="graph__label-title">B2B Расход</div>
+            <div className="graph__label-amount">65%</div>
+          </div>
+          <div className="graph__label">
+            <div className="graph__label-icon graph__label-icon_profit"></div>
+            <div className="graph__label-title">B2C Доход</div>
+            <div className="graph__label-amount">45%</div>
+          </div>
+          <div className="graph__label">
+            <div className="graph__label-icon graph__label-icon_debt"></div>
+            <div className="graph__label-title">B2C Расход</div>
+            <div className="graph__label-amount">30%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
