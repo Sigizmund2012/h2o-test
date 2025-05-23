@@ -109,7 +109,7 @@ export default function Chart() {
         B2C_expense: values.B2C_expense || 0,
       }))
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  }, [activeInterval, sampleData]);
+  }, [activeInterval]);
 
   return (
     <div className="chart">
