@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   LineChart,
   Line,
@@ -16,59 +16,6 @@ interface DataItem {
   amount: string;
   type: "income" | "expenses";
 }
-
-// Тестовые данные
-const sampleData: DataItem[] = [
-  {
-    division: "B2B",
-    date: "2023-01-01T05:00:00.000+00:00",
-    amount: "850000",
-    type: "income",
-  },
-  {
-    division: "B2B",
-    date: "2023-01-01T05:00:00.000+00:00",
-    amount: "450000",
-    type: "expenses",
-  },
-  {
-    division: "B2C",
-    date: "2023-01-01T05:00:00.000+00:00",
-    amount: "650000",
-    type: "income",
-  },
-  {
-    division: "B2C",
-    date: "2023-01-01T05:00:00.000+00:00",
-    amount: "350000",
-    type: "expenses",
-  },
-  {
-    division: "B2B",
-    date: "2023-02-01T05:00:00.000+00:00",
-    amount: "920000",
-    type: "income",
-  },
-  {
-    division: "B2B",
-    date: "2023-02-01T05:00:00.000+00:00",
-    amount: "480000",
-    type: "expenses",
-  },
-  {
-    division: "B2C",
-    date: "2023-02-01T05:00:00.000+00:00",
-    amount: "720000",
-    type: "income",
-  },
-  {
-    division: "B2C",
-    date: "2023-02-01T05:00:00.000+00:00",
-    amount: "380000",
-    type: "expenses",
-  },
-  // Добавляем данные за каждый месяц 2023 года...
-];
 
 interface TooltipProps {
   active?: boolean;
@@ -119,6 +66,33 @@ type Interval = "week" | "month" | "year";
 
 export default function Chart() {
   const [activeInterval, setActiveInterval] = useState<Interval>("month");
+  const [data, setData] = useState<DataItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/data.json");
+        if (!response.ok) {
+          throw new Error("Не удалось загрузить данные");
+        }
+        const json = await response.json();
+        setData(json.transactions);
+        setError(null);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Произошла ошибка при загрузке данных"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Подготовка данных для графика
   const preparedData = useMemo(() => {
@@ -134,7 +108,7 @@ export default function Chart() {
     > = {};
 
     // Группируем данные по датам
-    sampleData.forEach((item) => {
+    data.forEach((item) => {
       const date = item.date.split("T")[0];
       if (!groupedData[date]) {
         groupedData[date] = {
@@ -161,7 +135,7 @@ export default function Chart() {
     Object.keys(groupedData).forEach((date) => {
       const data = groupedData[date];
       data.profit = data.revenue - data.costs;
-      data.indebtedness = Math.max(0, -data.total); // Если общий баланс отрицательный, это задолженность
+      data.indebtedness = Math.max(0, -data.total);
     });
 
     return Object.entries(groupedData)
@@ -170,7 +144,35 @@ export default function Chart() {
         ...values,
       }))
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  }, []);
+  }, [data]);
+
+  // Вычисляем итоговые значения для нижней панели
+  const totals = useMemo(() => {
+    return data.reduce(
+      (acc, item) => {
+        const amount = parseFloat(item.amount);
+        if (item.type === "income") {
+          acc.revenue += amount;
+          acc.total += amount;
+        } else {
+          acc.costs += amount;
+          acc.total -= amount;
+        }
+        acc.profit = acc.revenue - acc.costs;
+        acc.indebtedness = Math.max(0, -acc.total);
+        return acc;
+      },
+      { revenue: 0, costs: 0, profit: 0, indebtedness: 0, total: 0 }
+    );
+  }, [data]);
+
+  if (isLoading) {
+    return <div className="chart">Загрузка данных...</div>;
+  }
+
+  if (error) {
+    return <div className="chart">Ошибка: {error}</div>;
+  }
 
   return (
     <div className="chart">
@@ -275,35 +277,45 @@ export default function Chart() {
             <div className="chart__label-icon chart__label-icon_revenue"></div>
             <div className="chart__label-wrapper">
               <div className="chart__label-title">Выручка</div>
-              <div className="chart__label-amount">₽ 8 615 253</div>
+              <div className="chart__label-amount">
+                {formatCurrency(totals.revenue)}
+              </div>
             </div>
           </div>
           <div className="chart__label">
             <div className="chart__label-icon chart__label-icon_costs"></div>
             <div className="chart__label-wrapper">
               <div className="chart__label-title">Затраты</div>
-              <div className="chart__label-amount">₽ 10 157 764</div>
+              <div className="chart__label-amount">
+                {formatCurrency(totals.costs)}
+              </div>
             </div>
           </div>
           <div className="chart__label">
             <div className="chart__label-icon chart__label-icon_profit"></div>
             <div className="chart__label-wrapper">
               <div className="chart__label-title">Прибыль</div>
-              <div className="chart__label-amount">₽ -1 542 511</div>
+              <div className="chart__label-amount">
+                {formatCurrency(totals.profit)}
+              </div>
             </div>
           </div>
           <div className="chart__label">
             <div className="chart__label-icon chart__label-icon_indebtedness"></div>
             <div className="chart__label-wrapper">
               <div className="chart__label-title">Задолженность</div>
-              <div className="chart__label-amount">₽ 0</div>
+              <div className="chart__label-amount">
+                {formatCurrency(totals.indebtedness)}
+              </div>
             </div>
           </div>
           <div className="chart__label">
             <div className="chart__label-icon chart__label-icon_total"></div>
             <div className="chart__label-wrapper">
               <div className="chart__label-title">Итог</div>
-              <div className="chart__label-amount">₽ 10 157 764</div>
+              <div className="chart__label-amount">
+                {formatCurrency(totals.total)}
+              </div>
             </div>
           </div>
         </div>

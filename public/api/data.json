@@ -1,0 +1,220 @@
+{
+  "transactions": [
+    {
+      "division": "B2B",
+      "date": "2021-01-01T05:00:00.000+00:00",
+      "amount": "400000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2021-01-01T05:00:00.000+00:00",
+      "amount": "320000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2021-01-01T05:00:00.000+00:00",
+      "amount": "360000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2021-01-01T05:00:00.000+00:00",
+      "amount": "240000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2B",
+      "date": "2021-06-01T05:00:00.000+00:00",
+      "amount": "450000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2021-06-01T05:00:00.000+00:00",
+      "amount": "380000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2021-06-01T05:00:00.000+00:00",
+      "amount": "420000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2021-06-01T05:00:00.000+00:00",
+      "amount": "290000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2B",
+      "date": "2021-12-01T05:00:00.000+00:00",
+      "amount": "520000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2021-12-01T05:00:00.000+00:00",
+      "amount": "420000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2021-12-01T05:00:00.000+00:00",
+      "amount": "480000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2021-12-01T05:00:00.000+00:00",
+      "amount": "350000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2B",
+      "date": "2022-01-01T05:00:00.000+00:00",
+      "amount": "600000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2022-01-01T05:00:00.000+00:00",
+      "amount": "480000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2022-01-01T05:00:00.000+00:00",
+      "amount": "540000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2022-01-01T05:00:00.000+00:00",
+      "amount": "360000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2B",
+      "date": "2022-06-01T05:00:00.000+00:00",
+      "amount": "680000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2022-06-01T05:00:00.000+00:00",
+      "amount": "550000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2022-06-01T05:00:00.000+00:00",
+      "amount": "620000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2022-06-01T05:00:00.000+00:00",
+      "amount": "420000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2B",
+      "date": "2022-12-01T05:00:00.000+00:00",
+      "amount": "780000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2022-12-01T05:00:00.000+00:00",
+      "amount": "630000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2022-12-01T05:00:00.000+00:00",
+      "amount": "700000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2022-12-01T05:00:00.000+00:00",
+      "amount": "480000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2B",
+      "date": "2023-01-01T05:00:00.000+00:00",
+      "amount": "850000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2023-01-01T05:00:00.000+00:00",
+      "amount": "680000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2023-01-01T05:00:00.000+00:00",
+      "amount": "765000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2023-01-01T05:00:00.000+00:00",
+      "amount": "510000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2B",
+      "date": "2023-06-01T05:00:00.000+00:00",
+      "amount": "950000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2023-06-01T05:00:00.000+00:00",
+      "amount": "760000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2023-06-01T05:00:00.000+00:00",
+      "amount": "855000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2023-06-01T05:00:00.000+00:00",
+      "amount": "570000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2B",
+      "date": "2023-12-01T05:00:00.000+00:00",
+      "amount": "1020000",
+      "type": "income"
+    },
+    {
+      "division": "B2B",
+      "date": "2023-12-01T05:00:00.000+00:00",
+      "amount": "816000",
+      "type": "expenses"
+    },
+    {
+      "division": "B2C",
+      "date": "2023-12-01T05:00:00.000+00:00",
+      "amount": "918000",
+      "type": "income"
+    },
+    {
+      "division": "B2C",
+      "date": "2023-12-01T05:00:00.000+00:00",
+      "amount": "612000",
+      "type": "expenses"
+    }
+  ]
+}
