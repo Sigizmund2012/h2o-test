@@ -65,7 +65,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
 type Interval = "week" | "month" | "year";
 
 export default function Chart() {
-  const [activeInterval, setActiveInterval] = useState<Interval>("month");
+  const [activeInterval, setActiveInterval] = useState<Interval>("year");
   const [data, setData] = useState<DataItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
