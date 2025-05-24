@@ -1,54 +1,77 @@
-# React + TypeScript + Vite
+# H2O Test Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a test assignment for H2O company, implementing a financial dashboard with interactive charts and business metrics visualization.
 
-Currently, two official plugins are available:
+![Project Screenshot](project-pic.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Vite** - Next Generation Frontend Tooling
+- **React 19** - A JavaScript library for building user interfaces
+- **TypeScript** - JavaScript with syntax for types
+- **SCSS** - CSS preprocessor with variables and mixins
+- **Recharts** - Composable charting library built on React components
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Interactive financial charts with multiple metrics
+- Responsive dashboard layout
+- Russian language interface
+- BEM methodology for styling
+- Color variables and theming support
+- TypeScript type safety
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Sigizmund2012/h2o-test.git
+cd h2o-test
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
 ```
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm run dev`
+
+Runs the app in development mode.\
+Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+
+### `npm run build`
+
+Builds the app for production to the `dist` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+### `npm run lint`
+
+Runs ESLint to check for code style issues and potential errors.
+
+### `npm run preview`
+
+Locally preview the production build.
+
+## Project Structure
+
+```
+src/
+  ├── components/     # React components
+  ├── assets/        # Static assets
+  ├── _variables.scss # Global SCSS variables
+  └── main.tsx        # Entry point
+```
+
+## Author
+
+Sigizmund2012
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
