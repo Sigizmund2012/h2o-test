@@ -224,7 +224,7 @@ export default function Chart() {
               dataKey="date"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "#8C8C8C" }}
+              tick={{ fill: "#d2d1d1" }}
             />
             <YAxis hide={true} />
             <Tooltip content={<CustomTooltip />} />
