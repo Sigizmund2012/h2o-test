@@ -39,10 +39,10 @@ const formatCurrency = (value: number) => {
 
 // Форматирование даты
 const formatDate = (dateStr: string) => {
-  return new Date(dateStr).toLocaleDateString("ru-RU", {
+  const month = new Date(dateStr).toLocaleDateString("ru-RU", {
     month: "short",
-    year: "2-digit",
   });
+  return `${month[0].toUpperCase()}${month.slice(1, 3)}`;
 };
 
 // Кастомный тултип
@@ -214,7 +214,12 @@ export default function Chart() {
       <div className="chart__body">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={preparedData}>
-            <CartesianGrid vertical={false} stroke="#E8E8E8" />
+            <CartesianGrid
+              width={2}
+              strokeDasharray="2 1"
+              horizontal={false}
+              stroke="#f8f8f8"
+            />
             <XAxis
               dataKey="date"
               axisLine={false}
@@ -228,7 +233,7 @@ export default function Chart() {
               dataKey="revenue"
               name="Выручка"
               stroke="#73CF7A"
-              strokeWidth={2}
+              strokeWidth={3}
               dot={false}
               activeDot={{ r: 4, fill: "#73CF7A" }}
             />
@@ -237,7 +242,7 @@ export default function Chart() {
               dataKey="costs"
               name="Затраты"
               stroke="#30C7DC"
-              strokeWidth={2}
+              strokeWidth={3}
               dot={false}
               activeDot={{ r: 4, fill: "#30C7DC" }}
             />
@@ -246,7 +251,7 @@ export default function Chart() {
               dataKey="profit"
               name="Прибыль"
               stroke="#45AAF2"
-              strokeWidth={2}
+              strokeWidth={3}
               dot={false}
               activeDot={{ r: 4, fill: "#45AAF2" }}
             />
@@ -255,7 +260,7 @@ export default function Chart() {
               dataKey="indebtedness"
               name="Задолженность"
               stroke="#F5E230"
-              strokeWidth={2}
+              strokeWidth={3}
               dot={false}
               activeDot={{ r: 4, fill: "#F5E230" }}
             />
@@ -264,7 +269,7 @@ export default function Chart() {
               dataKey="total"
               name="Итог"
               stroke="#AC74FC"
-              strokeWidth={2}
+              strokeWidth={3}
               dot={false}
               activeDot={{ r: 4, fill: "#AC74FC" }}
             />
