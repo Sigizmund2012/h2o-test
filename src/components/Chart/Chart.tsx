@@ -235,7 +235,7 @@ export default function Chart() {
               stroke="#73CF7A"
               strokeWidth={3}
               dot={false}
-              activeDot={{ r: 4, fill: "#73CF7A" }}
+              activeDot={{ r: 8, fill: "#73CF7A" }}
             />
             <Line
               type="monotone"
@@ -244,7 +244,7 @@ export default function Chart() {
               stroke="#30C7DC"
               strokeWidth={3}
               dot={false}
-              activeDot={{ r: 4, fill: "#30C7DC" }}
+              activeDot={{ r: 8, fill: "#30C7DC" }}
             />
             <Line
               type="monotone"
@@ -253,7 +253,7 @@ export default function Chart() {
               stroke="#45AAF2"
               strokeWidth={3}
               dot={false}
-              activeDot={{ r: 4, fill: "#45AAF2" }}
+              activeDot={{ r: 8, fill: "#45AAF2" }}
             />
             <Line
               type="monotone"
@@ -262,7 +262,7 @@ export default function Chart() {
               stroke="#F5E230"
               strokeWidth={3}
               dot={false}
-              activeDot={{ r: 4, fill: "#F5E230" }}
+              activeDot={{ r: 8, fill: "#F5E230" }}
             />
             <Line
               type="monotone"
@@ -271,7 +271,7 @@ export default function Chart() {
               stroke="#AC74FC"
               strokeWidth={3}
               dot={false}
-              activeDot={{ r: 4, fill: "#AC74FC" }}
+              activeDot={{ r: 8, fill: "#AC74FC" }}
             />
           </LineChart>
         </ResponsiveContainer>
