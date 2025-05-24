@@ -1,3 +1,5 @@
+@use "../../_variables" as *;
+
 .tabs {
   display: flex;
   align-items: center;
@@ -16,7 +18,7 @@
     width: 40px;
     height: 40px;
     border-radius: 100%;
-    box-shadow: 0 4px 18px 0 rgba(210, 209, 209, 0.5);
+    box-shadow: 0 4px 18px 0 $shadow-tabs;
   }
   &__arrow-left {
     margin-right: 8px;
@@ -38,7 +40,7 @@
       bottom: -12.5px;
       left: 0;
       height: 1.5px;
-      background-color: #d2d1d1;
+      background-color: $color-text-secondary;
       content: "";
     }
     &:nth-child(2) {
@@ -49,7 +51,7 @@
       padding-left: 36px;
     }
     a {
-      color: #d2d1d1;
+      color: $color-text-secondary;
       text-decoration: none;
       white-space: nowrap;
       font-weight: 600;
@@ -67,10 +69,10 @@
   &_tab-active {
     &::before {
       height: 2px;
-      background-color: #54d3c2;
+      background-color: $color-active-indicator;
     }
     a {
-      color: #323f47;
+      color: $color-text-primary;
       font-weight: bold;
     }
   }

@@ -1,8 +1,10 @@
+@use "../../_variables" as *;
+
 .summary-report {
   display: grid;
   padding: 28px 40px 40px 39px;
   border-radius: 56px 56px 0 0;
-  background-color: #f8f8f8;
+  background-color: $color-background;
   column-gap: 39px;
 
   grid-template-columns: repeat(3, 264px) 1fr;
@@ -15,7 +17,7 @@
 }
 
 .heading {
-  color: #323f47;
+  color: $color-text-primary;
   text-align: left;
   letter-spacing: -0.56px;
   font-weight: 800;

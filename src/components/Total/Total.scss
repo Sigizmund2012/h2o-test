@@ -1,3 +1,5 @@
+@use "../../_variables" as *;
+
 .total {
   display: flex;
   align-items: center;
@@ -6,7 +8,7 @@
   width: 264px;
   height: 168px;
   border-radius: 24px;
-  background-color: #54d3c2;
+  background-color: $color-active-indicator;
 
   grid-area: total;
   &__financial-direction {
@@ -17,7 +19,7 @@
     width: 144px;
     height: 36px;
     border-radius: 24px;
-    background-color: rgba(248, 248, 248, 0.25);
+    background-color: $color-total-bg;
   }
   &__arrow {
     margin: 0 4px 1px 0;
@@ -34,7 +36,7 @@
     line-height: 2.59;
   }
   &__percent {
-    color: #fff;
+    color: $color-white;
     text-align: left;
     letter-spacing: -0.56px;
     font-weight: 600;
@@ -47,7 +49,7 @@
     margin-top: 20px;
     width: 158px;
     height: 44px;
-    color: #fff;
+    color: $color-white;
     text-align: left;
     letter-spacing: -0.56px;
     font-weight: 600;
@@ -59,7 +61,7 @@
     margin-top: -10px;
     width: 42px;
     height: 44px;
-    color: #fff;
+    color: $color-white;
     text-align: center;
     letter-spacing: -0.56px;
     font-weight: 600;

@@ -1,7 +1,9 @@
+@use "../../_variables" as *;
+
 .main-content {
   display: grid;
   border-radius: 56px 0 0 0;
-  background-color: #fff;
+  background-color: $color-white;
   column-gap: 36px;
 
   grid-area: main;

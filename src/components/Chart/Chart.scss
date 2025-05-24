@@ -1,10 +1,12 @@
+@use "../../_variables" as *;
+
 .chart {
   display: flex;
   flex-direction: column;
   margin-top: 32px;
   padding: 18px 32px;
   border-radius: 32px;
-  background-color: #fff;
+  background-color: $color-white;
 
   grid-area: chart;
 
@@ -14,7 +16,7 @@
     justify-content: space-between;
   }
   &__heading {
-    color: #2d4258;
+    color: $color-heading;
     text-align: left;
     letter-spacing: -0.56px;
     font-weight: bold;
@@ -34,7 +36,7 @@
     position: relative;
     border: none;
     background: none;
-    color: #d2d1d1;
+    color: $color-text-secondary;
     letter-spacing: 0.44px;
     font-weight: 600;
     font-style: normal;
@@ -52,14 +54,14 @@
     }
 
     &_active {
-      color: #323f47;
+      color: $color-text-primary;
       &:before {
         position: absolute;
         right: 0;
         bottom: -9px;
         left: 0;
         height: 4px;
-        background-color: #54d3c2;
+        background-color: $color-active-indicator;
         content: "";
       }
     }
@@ -128,7 +130,7 @@
     }
 
     &-title {
-      color: #6d7986;
+      color: $color-text-tertiary;
       text-align: left;
       letter-spacing: -0.56px;
       font-weight: 600;
@@ -139,7 +141,7 @@
     }
 
     &-amount {
-      color: #323f47;
+      color: $color-text-primary;
       text-align: left;
       letter-spacing: normal;
       font-weight: bold;
@@ -153,12 +155,12 @@
   &__tooltip {
     padding: 12px;
     border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background-color: $color-white;
+    box-shadow: 0 2px 8px $shadow-tooltip;
 
     &-label {
       margin: 0 0 8px;
-      color: #8c8c8c;
+      color: $color-text-tooltip;
       font-size: 12px;
     }
 

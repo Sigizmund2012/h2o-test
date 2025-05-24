@@ -1,3 +1,5 @@
+@use "../../_variables" as *;
+
 .user {
   position: relative;
   display: flex;
@@ -12,7 +14,7 @@
     margin-left: 21px;
   }
   &__name {
-    color: #323f47;
+    color: $color-text-primary;
     text-align: left;
     letter-spacing: 0.44px;
     font-weight: bold;
@@ -20,7 +22,7 @@
     font-stretch: normal;
   }
   &__position {
-    color: #989fa3;
+    color: $color-text-light;
     text-align: left;
     letter-spacing: 0.15px;
     font-weight: 600;
@@ -49,7 +51,7 @@
       padding: 10px;
       color: #000;
       text-decoration: none;
-      background-color: #fff;
+      background-color: $color-white;
     }
   }
   &_profile-show {

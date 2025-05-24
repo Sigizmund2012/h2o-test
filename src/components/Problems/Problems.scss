@@ -1,13 +1,15 @@
+@use "../../_variables" as *;
+
 .problems {
   padding: 17px 32px;
   width: 414px;
   border-radius: 32px;
-  background-color: #fff;
+  background-color: $color-white;
 
   grid-area: problems;
   &__heading {
     margin-bottom: 11px;
-    color: #2d4258;
+    color: $color-heading;
     text-align: left;
     letter-spacing: -0.56px;
     font-weight: bold;
@@ -29,7 +31,7 @@
     }
     &-title {
       margin-bottom: 2px;
-      color: #6d7986;
+      color: $color-text-tertiary;
       text-align: left;
       letter-spacing: -0.56px;
       font-weight: 600;
@@ -39,7 +41,7 @@
       line-height: 1.29;
     }
     &-description {
-      color: #323f47;
+      color: $color-text-primary;
       text-align: left;
       letter-spacing: normal;
       font-weight: bold;
