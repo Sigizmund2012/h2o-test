@@ -1,0 +1,73 @@
+@use "../../_variables" as *;
+
+.calendar-container {
+  padding: 0 39px;
+  height: 100%;
+  background-color: $color-white;
+
+  .heading {
+    margin-bottom: 24px;
+    color: $color-text-primary;
+    font-weight: 600;
+    font-size: 24px;
+  }
+
+  .calendar-wrapper {
+    height: calc(100% - 80px);
+    border-radius: 16px;
+    background-color: $color-white;
+    box-shadow: 0 4px 18px 0 $shadow-tabs;
+
+    :global {
+      .rbc-calendar {
+        padding: 20px;
+        height: 100%;
+      }
+
+      .rbc-header {
+        padding: 10px;
+        border-bottom: 1px solid $color-text-secondary;
+        color: $color-text-primary;
+        font-weight: 600;
+      }
+
+      .rbc-today {
+        background-color: rgba($color-active-nav, 0.1);
+      }
+
+      .rbc-event {
+        padding: 4px 8px;
+        border: none;
+        border-radius: 8px;
+        background-color: $color-active-nav;
+      }
+
+      .rbc-event-content {
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .rbc-toolbar {
+        margin-bottom: 20px;
+
+        button {
+          padding: 8px 16px;
+          border: 1px solid $color-text-secondary;
+          border-radius: 8px;
+          color: $color-text-primary;
+          font-weight: 500;
+
+          &:hover {
+            background-color: rgba($color-active-nav, 0.1);
+          }
+
+          &.rbc-active {
+            border-color: $color-active-nav;
+            background-color: $color-active-nav;
+            color: $color-white;
+          }
+        }
+      }
+    }
+  }
+}

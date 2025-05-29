@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Main from "./components/Main/Main";
+import CalendarPage from "./pages/CalendarPage";
 import "./App.scss";
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/calendar" element={<Main />} />
+          <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/list" element={<Main />} />
           <Route path="/mailbox" element={<Main />} />
           <Route path="/team" element={<Main />} />

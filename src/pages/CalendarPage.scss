@@ -1,0 +1,19 @@
+@use "../_variables" as *;
+
+.calendar-page {
+  display: grid;
+  grid-template-rows: 154px 1fr;
+  height: 100vh;
+  background-color: $color-white;
+  border-radius: 56px 0 0 0;
+
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  &__content {
+    height: 100%;
+  }
+}
