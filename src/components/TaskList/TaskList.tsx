@@ -16,20 +16,8 @@ interface Task {
 }
 
 interface DragData {
-  type: "task" | "task-list";
-  id?: string;
-  index?: number;
-}
-
-interface TaskItemProps {
-  task: Task;
-  index: number;
-  activeId: string | null;
-  onDragStart: (id: string) => void;
-  onDragEnd: () => void;
-  onEdit: (task: Task) => void;
-  onDelete: (id: string) => void;
-  onStatusChange: (id: string, status: Task["status"]) => void;
+  type: "task";
+  id: string;
 }
 
 const priorityColors = {
@@ -47,7 +35,16 @@ function TaskItem({
   onEdit,
   onDelete,
   onStatusChange,
-}: Readonly<TaskItemProps>) {
+}: Readonly<{
+  task: Task;
+  index: number;
+  activeId: string | null;
+  onDragStart: (id: string) => void;
+  onDragEnd: () => void;
+  onEdit: (task: Task) => void;
+  onDelete: (id: string) => void;
+  onStatusChange: (id: string, status: Task["status"]) => void;
+}>) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -210,7 +207,6 @@ export default function TaskList() {
 
   const handleAddTask = () => {
     if (!newTask.title) return;
-
     const task: Task = {
       id: Date.now().toString(),
       title: newTask.title,
@@ -218,7 +214,6 @@ export default function TaskList() {
       priority: newTask.priority || "medium",
       status: newTask.status || "todo",
     };
-
     setTasks([...tasks, task]);
     setNewTask({
       title: "",
@@ -238,7 +233,6 @@ export default function TaskList() {
 
   const handleSaveEdit = () => {
     if (!editingTask) return;
-
     setTasks(
       tasks.map((task) => (task.id === editingTask.id ? editingTask : task))
     );
@@ -253,42 +247,7 @@ export default function TaskList() {
     );
   };
 
-  // Monitor for drag events
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const cleanup = monitorForElements({
-      onDrop({ source, location }) {
-        const sourceData = source.data as unknown as DragData;
-        const locationData = location?.data as unknown as DragData;
-
-        if (sourceData.type === "task" && locationData?.type === "task-list") {
-          const fromIndex = tasks.findIndex((t) => t.id === sourceData.id);
-          if (fromIndex === -1) return;
-
-          // Calculate the new index based on the drop position
-          const rect = container.getBoundingClientRect();
-          const dropY = location.clientY;
-          const relativeY = dropY - rect.top;
-          const itemHeight = 80; // Approximate height of a task item
-          const toIndex = Math.floor(relativeY / itemHeight);
-
-          if (fromIndex === toIndex) return;
-
-          const updated = [...tasks];
-          const [removed] = updated.splice(fromIndex, 1);
-          updated.splice(toIndex, 0, removed);
-          setTasks(updated);
-        }
-      },
-    });
-
-    return () => {
-      cleanup();
-    };
-  }, [tasks]);
-
+  // Подписываем контейнер как drop target и мониторим дроп события
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -296,16 +255,49 @@ export default function TaskList() {
     return combine(
       dropTargetForElements({
         element: container,
-        getData: () => ({ type: "task-list" }),
+        getData: () => ({ type: "task" }),
+      }),
+      monitorForElements({
+        onDrop({ source, location }) {
+          const sourceData = source.data as DragData;
+          const fromIndex = tasks.findIndex((t) => t.id === sourceData.id);
+          if (fromIndex === -1) return;
+
+          // Определяем индекс, куда упал элемент
+          const rect = container.getBoundingClientRect();
+          const dropY = location.clientY;
+          const items = Array.from(container.querySelectorAll(".task-item"));
+
+          let toIndex = items.length;
+
+          for (let i = 0; i < items.length; i++) {
+            const itemRect = items[i].getBoundingClientRect();
+            const itemCenter = itemRect.top + itemRect.height / 2;
+
+            if (dropY < itemCenter) {
+              toIndex = i;
+              break;
+            }
+          }
+
+          if (fromIndex === toIndex) return;
+
+          setTasks((prev) => {
+            const updated = [...prev];
+            const [moved] = updated.splice(fromIndex, 1);
+            updated.splice(toIndex, 0, moved);
+            return updated;
+          });
+        },
       })
     );
-  }, []);
+  }, [tasks]);
 
   return (
     <div className="task-list">
       <h1 className="heading">Список задач</h1>
 
-      {/* Add new task form */}
+      {/* Форма добавления новой задачи */}
       <div className="task-list__add-form">
         <input
           type="text"
@@ -336,7 +328,7 @@ export default function TaskList() {
         <button onClick={handleAddTask}>Добавить задачу</button>
       </div>
 
-      {/* Edit task modal */}
+      {/* Модалка редактирования */}
       {editingTask && (
         <div className="task-list__edit-modal">
           <div className="modal-content">
@@ -375,6 +367,7 @@ export default function TaskList() {
         </div>
       )}
 
+      {/* Список задач */}
       <div ref={containerRef} className="task-list__container">
         <div className="task-list__items">
           {tasks.map((task, index) => (
