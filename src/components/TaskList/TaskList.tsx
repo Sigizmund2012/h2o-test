@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import {
   draggable,
   dropTargetForElements,
@@ -19,6 +19,84 @@ interface DragData {
   type: "task" | "task-list";
   id?: string;
   index?: number;
+}
+
+interface TaskItemProps {
+  task: Task;
+  index: number;
+  activeId: string | null;
+  onDragStart: (id: string) => void;
+  onDragEnd: () => void;
+  onEdit: (task: Task) => void;
+  onDelete: (id: string) => void;
+  onStatusChange: (id: string, status: Task["status"]) => void;
+}
+
+const priorityColors = {
+  high: "#FF4B4B",
+  medium: "#FFB84B",
+  low: "#4BFF4B",
+};
+
+function TaskItem({
+  task,
+  index,
+  activeId,
+  onDragStart,
+  onDragEnd,
+  onEdit,
+  onDelete,
+  onStatusChange,
+}: Readonly<TaskItemProps>) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    return combine(
+      draggable({
+        element: el,
+        getInitialData: () => ({ type: "task", id: task.id }),
+        onDragStart: () => onDragStart(task.id),
+        onDrop: onDragEnd,
+      })
+    );
+  }, [task.id, onDragStart, onDragEnd]);
+
+  return (
+    <div
+      ref={ref}
+      className={`task-item${
+        activeId === task.id ? " task-item--dragging" : ""
+      }`}
+    >
+      <div
+        className="task-item__priority"
+        style={{ backgroundColor: priorityColors[task.priority] }}
+      />
+      <div className="task-item__content">
+        <h3 className="task-item__title">{task.title}</h3>
+        <p className="task-item__description">{task.description}</p>
+      </div>
+      <div className="task-item__status">
+        <select
+          value={task.status}
+          onChange={(e) =>
+            onStatusChange(task.id, e.target.value as Task["status"])
+          }
+        >
+          <option value="todo">К выполнению</option>
+          <option value="in-progress">В процессе</option>
+          <option value="done">Выполнено</option>
+        </select>
+      </div>
+      <div className="task-item__actions">
+        <button onClick={() => onEdit(task)}>Редактировать</button>
+        <button onClick={() => onDelete(task.id)}>Удалить</button>
+      </div>
+    </div>
+  );
 }
 
 const initialTasks: Task[] = [
@@ -43,13 +121,70 @@ const initialTasks: Task[] = [
     priority: "low",
     status: "done",
   },
+  {
+    id: "4",
+    title: "Провести код-ревью",
+    description: "Проверить код новых фич и оставить комментарии",
+    priority: "high",
+    status: "todo",
+  },
+  {
+    id: "5",
+    title: "Оптимизировать производительность",
+    description: "Проанализировать и улучшить время загрузки страниц",
+    priority: "medium",
+    status: "in-progress",
+  },
+  {
+    id: "6",
+    title: "Написать тесты",
+    description: "Добавить unit-тесты для новых компонентов",
+    priority: "high",
+    status: "todo",
+  },
+  {
+    id: "7",
+    title: "Обновить зависимости",
+    description: "Обновить версии пакетов и исправить конфликты",
+    priority: "low",
+    status: "done",
+  },
+  {
+    id: "8",
+    title: "Рефакторинг кода",
+    description: "Улучшить структуру кода и удалить дублирование",
+    priority: "medium",
+    status: "in-progress",
+  },
+  {
+    id: "9",
+    title: "Добавить анимации",
+    description: "Улучшить UX с помощью плавных переходов",
+    priority: "low",
+    status: "todo",
+  },
+  {
+    id: "10",
+    title: "Исправить баги",
+    description: "Исправить критические ошибки в продакшене",
+    priority: "high",
+    status: "in-progress",
+  },
+  {
+    id: "11",
+    title: "Улучшить SEO",
+    description: "Оптимизировать мета-теги и структуру страниц",
+    priority: "medium",
+    status: "todo",
+  },
+  {
+    id: "12",
+    title: "Добавить аналитику",
+    description: "Интегрировать Google Analytics и настроить события",
+    priority: "low",
+    status: "done",
+  },
 ];
-
-const priorityColors = {
-  high: "#FF4B4B",
-  medium: "#FFB84B",
-  low: "#4BFF4B",
-};
 
 export default function TaskList() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
@@ -62,18 +197,16 @@ export default function TaskList() {
     status: "todo",
   });
   const containerRef = useRef<HTMLDivElement>(null);
-  const taskRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-  const setTaskRef = useCallback(
-    (id: string, element: HTMLDivElement | null) => {
-      if (element) {
-        taskRefs.current.set(id, element);
-      } else {
-        taskRefs.current.delete(id);
-      }
-    },
-    []
-  );
+  const handleDragStart = useCallback((id: string) => {
+    setActiveId(id);
+    document.body.style.userSelect = "none";
+  }, []);
+
+  const handleDragEnd = useCallback(() => {
+    setActiveId(null);
+    document.body.style.userSelect = "";
+  }, []);
 
   const handleAddTask = () => {
     if (!newTask.title) return;
@@ -121,27 +254,52 @@ export default function TaskList() {
   };
 
   // Monitor for drag events
-  monitorForElements({
-    onDrop({ source, location }) {
-      const sourceData = source.data as unknown as DragData;
-      const locationData = location?.data as unknown as DragData;
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-      if (
-        sourceData.type === "task" &&
-        locationData?.type === "task-list" &&
-        typeof locationData.index === "number"
-      ) {
-        const fromIndex = tasks.findIndex((t) => t.id === sourceData.id);
-        if (fromIndex === -1) return;
-        const toIndex = locationData.index;
-        if (fromIndex === toIndex) return;
-        const updated = [...tasks];
-        const [removed] = updated.splice(fromIndex, 1);
-        updated.splice(toIndex, 0, removed);
-        setTasks(updated);
-      }
-    },
-  });
+    const cleanup = monitorForElements({
+      onDrop({ source, location }) {
+        const sourceData = source.data as unknown as DragData;
+        const locationData = location?.data as unknown as DragData;
+
+        if (sourceData.type === "task" && locationData?.type === "task-list") {
+          const fromIndex = tasks.findIndex((t) => t.id === sourceData.id);
+          if (fromIndex === -1) return;
+
+          // Calculate the new index based on the drop position
+          const rect = container.getBoundingClientRect();
+          const dropY = location.clientY;
+          const relativeY = dropY - rect.top;
+          const itemHeight = 80; // Approximate height of a task item
+          const toIndex = Math.floor(relativeY / itemHeight);
+
+          if (fromIndex === toIndex) return;
+
+          const updated = [...tasks];
+          const [removed] = updated.splice(fromIndex, 1);
+          updated.splice(toIndex, 0, removed);
+          setTasks(updated);
+        }
+      },
+    });
+
+    return () => {
+      cleanup();
+    };
+  }, [tasks]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    return combine(
+      dropTargetForElements({
+        element: container,
+        getData: () => ({ type: "task-list" }),
+      })
+    );
+  }, []);
 
   return (
     <div className="task-list">
@@ -217,71 +375,20 @@ export default function TaskList() {
         </div>
       )}
 
-      <div
-        ref={containerRef}
-        className="task-list__container"
-        {...(containerRef.current
-          ? dropTargetForElements({
-              element: containerRef.current,
-              getData: () => ({ type: "task-list" }),
-            })
-          : {})}
-      >
+      <div ref={containerRef} className="task-list__container">
         <div className="task-list__items">
           {tasks.map((task, index) => (
-            <div
+            <TaskItem
               key={task.id}
-              ref={(el) => setTaskRef(task.id, el)}
-              className={`task-item${
-                activeId === task.id ? " task-item--dragging" : ""
-              }`}
-              {...(taskRefs.current.get(task.id)
-                ? combine(
-                    draggable({
-                      element: taskRefs.current.get(task.id)!,
-                      getInitialData: () => ({ type: "task", id: task.id }),
-                      onDragStart: () => setActiveId(task.id),
-                      onDrop: () => setActiveId(null),
-                    }),
-                    dropTargetForElements({
-                      element: taskRefs.current.get(task.id)!,
-                      getData: () => ({ type: "task-list", index }),
-                    })
-                  )
-                : {})}
-            >
-              <div
-                className="task-item__priority"
-                style={{ backgroundColor: priorityColors[task.priority] }}
-              />
-              <div className="task-item__content">
-                <h3 className="task-item__title">{task.title}</h3>
-                <p className="task-item__description">{task.description}</p>
-              </div>
-              <div className="task-item__status">
-                <select
-                  value={task.status}
-                  onChange={(e) =>
-                    handleStatusChange(
-                      task.id,
-                      e.target.value as Task["status"]
-                    )
-                  }
-                >
-                  <option value="todo">К выполнению</option>
-                  <option value="in-progress">В процессе</option>
-                  <option value="done">Выполнено</option>
-                </select>
-              </div>
-              <div className="task-item__actions">
-                <button onClick={() => handleEditTask(task)}>
-                  Редактировать
-                </button>
-                <button onClick={() => handleDeleteTask(task.id)}>
-                  Удалить
-                </button>
-              </div>
-            </div>
+              task={task}
+              index={index}
+              activeId={activeId}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+              onEdit={handleEditTask}
+              onDelete={handleDeleteTask}
+              onStatusChange={handleStatusChange}
+            />
           ))}
         </div>
       </div>

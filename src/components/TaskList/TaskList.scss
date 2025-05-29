@@ -4,6 +4,7 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  user-select: none;
 
   .heading {
     margin-bottom: 20px;
@@ -154,8 +155,16 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-bottom: 10px;
-    cursor: move;
+    cursor: grab;
     transition: transform 0.2s, box-shadow 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    &:active {
+      cursor: grabbing;
+    }
 
     &:hover {
       transform: translateY(-2px);
@@ -164,6 +173,7 @@
 
     &--dragging {
       opacity: 0.5;
+      cursor: grabbing;
     }
 
     &__priority {
