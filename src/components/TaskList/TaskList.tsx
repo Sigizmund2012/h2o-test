@@ -54,6 +54,13 @@ const priorityColors = {
 export default function TaskList() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [newTask, setNewTask] = useState<Partial<Task>>({
+    title: "",
+    description: "",
+    priority: "medium",
+    status: "todo",
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const taskRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
@@ -67,6 +74,51 @@ export default function TaskList() {
     },
     []
   );
+
+  const handleAddTask = () => {
+    if (!newTask.title) return;
+
+    const task: Task = {
+      id: Date.now().toString(),
+      title: newTask.title,
+      description: newTask.description || "",
+      priority: newTask.priority || "medium",
+      status: newTask.status || "todo",
+    };
+
+    setTasks([...tasks, task]);
+    setNewTask({
+      title: "",
+      description: "",
+      priority: "medium",
+      status: "todo",
+    });
+  };
+
+  const handleDeleteTask = (id: string) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task);
+  };
+
+  const handleSaveEdit = () => {
+    if (!editingTask) return;
+
+    setTasks(
+      tasks.map((task) => (task.id === editingTask.id ? editingTask : task))
+    );
+    setEditingTask(null);
+  };
+
+  const handleStatusChange = (id: string, newStatus: Task["status"]) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, status: newStatus } : task
+      )
+    );
+  };
 
   // Monitor for drag events
   monitorForElements({
@@ -94,6 +146,77 @@ export default function TaskList() {
   return (
     <div className="task-list">
       <h1 className="heading">Список задач</h1>
+
+      {/* Add new task form */}
+      <div className="task-list__add-form">
+        <input
+          type="text"
+          placeholder="Название задачи"
+          value={newTask.title}
+          onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+        />
+        <textarea
+          placeholder="Описание задачи"
+          value={newTask.description}
+          onChange={(e) =>
+            setNewTask({ ...newTask, description: e.target.value })
+          }
+        />
+        <select
+          value={newTask.priority}
+          onChange={(e) =>
+            setNewTask({
+              ...newTask,
+              priority: e.target.value as Task["priority"],
+            })
+          }
+        >
+          <option value="high">Высокий</option>
+          <option value="medium">Средний</option>
+          <option value="low">Низкий</option>
+        </select>
+        <button onClick={handleAddTask}>Добавить задачу</button>
+      </div>
+
+      {/* Edit task modal */}
+      {editingTask && (
+        <div className="task-list__edit-modal">
+          <div className="modal-content">
+            <h3>Редактировать задачу</h3>
+            <input
+              type="text"
+              value={editingTask.title}
+              onChange={(e) =>
+                setEditingTask({ ...editingTask, title: e.target.value })
+              }
+            />
+            <textarea
+              value={editingTask.description}
+              onChange={(e) =>
+                setEditingTask({ ...editingTask, description: e.target.value })
+              }
+            />
+            <select
+              value={editingTask.priority}
+              onChange={(e) =>
+                setEditingTask({
+                  ...editingTask,
+                  priority: e.target.value as Task["priority"],
+                })
+              }
+            >
+              <option value="high">Высокий</option>
+              <option value="medium">Средний</option>
+              <option value="low">Низкий</option>
+            </select>
+            <div className="modal-actions">
+              <button onClick={handleSaveEdit}>Сохранить</button>
+              <button onClick={() => setEditingTask(null)}>Отмена</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div
         ref={containerRef}
         className="task-list__container"
@@ -136,9 +259,27 @@ export default function TaskList() {
                 <p className="task-item__description">{task.description}</p>
               </div>
               <div className="task-item__status">
-                {task.status === "todo" && "К выполнению"}
-                {task.status === "in-progress" && "В процессе"}
-                {task.status === "done" && "Выполнено"}
+                <select
+                  value={task.status}
+                  onChange={(e) =>
+                    handleStatusChange(
+                      task.id,
+                      e.target.value as Task["status"]
+                    )
+                  }
+                >
+                  <option value="todo">К выполнению</option>
+                  <option value="in-progress">В процессе</option>
+                  <option value="done">Выполнено</option>
+                </select>
+              </div>
+              <div className="task-item__actions">
+                <button onClick={() => handleEditTask(task)}>
+                  Редактировать
+                </button>
+                <button onClick={() => handleDeleteTask(task.id)}>
+                  Удалить
+                </button>
               </div>
             </div>
           ))}
