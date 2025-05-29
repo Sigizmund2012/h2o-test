@@ -1,0 +1,76 @@
+@use "../../_variables" as *;
+
+.task-list {
+  padding: 0 39px;
+  height: 100%;
+  background-color: $color-white;
+
+  .heading {
+    margin-bottom: 24px;
+    color: $color-text-primary;
+    font-weight: 600;
+    font-size: 24px;
+  }
+
+  &__container {
+    height: calc(100% - 80px);
+    border-radius: 16px;
+    background-color: $color-white;
+    box-shadow: 0 4px 18px 0 $shadow-tabs;
+    padding: 20px;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: $color-white;
+  border-radius: 12px;
+  border: 1px solid $color-text-secondary;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &__priority {
+    width: 4px;
+    height: 40px;
+    border-radius: 2px;
+    margin-right: 16px;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    margin: 0 0 8px;
+    color: $color-text-primary;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__description {
+    margin: 0;
+    color: $color-text-secondary;
+    font-size: 14px;
+  }
+
+  &__status {
+    padding: 6px 12px;
+    border-radius: 8px;
+    background-color: rgba($color-active-nav, 0.1);
+    color: $color-active-nav;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 16px;
+  }
+}
