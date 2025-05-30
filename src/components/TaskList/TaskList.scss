@@ -34,9 +34,7 @@
 }
 
 .task-list {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 39px;
   user-select: none;
 
   .heading {
@@ -191,9 +189,6 @@
     cursor: grab;
     transition: transform 0.2s, box-shadow 0.2s;
     user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 
     &:active {
       cursor: grabbing;
