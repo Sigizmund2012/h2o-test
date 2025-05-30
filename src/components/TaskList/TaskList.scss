@@ -1,5 +1,12 @@
 @use "../../_variables" as *;
 
+.insertion-zone {
+  height: 20px;
+  border: 2px dashed #0079bf;
+  margin: 10px 0;
+}
+
+
 .task-list {
   padding: 20px;
   max-width: 1200px;

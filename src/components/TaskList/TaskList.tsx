@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import {
   draggable,
   dropTargetForElements,
@@ -193,6 +193,9 @@ export default function TaskList() {
     priority: "medium",
     status: "todo",
   });
+  // Состояние для хранения текущего индекса вставки
+  const [placeholderIndex, setPlaceholderIndex] = useState<number | null>(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleDragStart = useCallback((id: string) => {
@@ -202,8 +205,35 @@ export default function TaskList() {
 
   const handleDragEnd = useCallback(() => {
     setActiveId(null);
+    setPlaceholderIndex(null); // Сбрасываем зону вставки
     document.body.style.userSelect = "";
   }, []);
+
+  // Обрабатываем перемещение указателя внутри контейнера, чтобы вычислить insertion индекс
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const onPointerMove = (e: PointerEvent) => {
+      if (!activeId) return; // обновляем только когда перетаскивание активно
+      // Получаем положение указателя и список элементов
+      const pointerY = e.clientY;
+      const items = Array.from(container.querySelectorAll(".task-item"));
+      let index = items.length; // по умолчанию – вставка в конец
+      for (let i = 0; i < items.length; i++) {
+        const itemRect = items[i].getBoundingClientRect();
+        const itemCenter = itemRect.top + itemRect.height / 2;
+        if (pointerY < itemCenter) {
+          index = i;
+          break;
+        }
+      }
+      setPlaceholderIndex(index);
+    };
+    container.addEventListener("pointermove", onPointerMove);
+    return () => {
+      container.removeEventListener("pointermove", onPointerMove);
+    };
+  }, [activeId, tasks]);
 
   const handleAddTask = () => {
     if (!newTask.title) return;
@@ -247,11 +277,10 @@ export default function TaskList() {
     );
   };
 
-  // Подписываем контейнер как drop target и мониторим дроп события
+  // Обработка drop-события для перемещения задач (reordering)
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
     return combine(
       dropTargetForElements({
         element: container,
@@ -259,39 +288,40 @@ export default function TaskList() {
       }),
       monitorForElements({
         onDrop({ source, location }) {
-          const sourceData = source.data as DragData;
+          const sourceData = source.data as unknown as DragData;
           const fromIndex = tasks.findIndex((t) => t.id === sourceData.id);
           if (fromIndex === -1) return;
 
-          // Определяем индекс, куда упал элемент
-          const rect = container.getBoundingClientRect();
-          const dropY = location.clientY;
-          const items = Array.from(container.querySelectorAll(".task-item"));
-
-          let toIndex = items.length;
-
-          for (let i = 0; i < items.length; i++) {
-            const itemRect = items[i].getBoundingClientRect();
-            const itemCenter = itemRect.top + itemRect.height / 2;
-
-            if (dropY < itemCenter) {
-              toIndex = i;
-              break;
+          let toIndex: number;
+          // Если мы уже вычислили index через pointermove – используем его
+          if (placeholderIndex !== null) {
+            toIndex = placeholderIndex;
+          } else {
+            // Фолбэк: вычисляем индекс на основании координат drop
+            const items = Array.from(container.querySelectorAll(".task-item"));
+            const dropY = location.current.input.clientY;
+            toIndex = items.length;
+            for (let i = 0; i < items.length; i++) {
+              const itemRect = items[i].getBoundingClientRect();
+              const itemCenter = itemRect.top + itemRect.height / 2;
+              if (dropY < itemCenter) {
+                toIndex = i;
+                break;
+              }
             }
           }
-
           if (fromIndex === toIndex) return;
-
           setTasks((prev) => {
             const updated = [...prev];
             const [moved] = updated.splice(fromIndex, 1);
-            updated.splice(toIndex, 0, moved);
+            updated.splice(toIndex - 1, 0, moved);
             return updated;
           });
+          setPlaceholderIndex(null);
         },
       })
     );
-  }, [tasks]);
+  }, [tasks, placeholderIndex]);
 
   return (
     <div className="task-list">
@@ -367,21 +397,28 @@ export default function TaskList() {
         </div>
       )}
 
-      {/* Список задач */}
+      {/* Список задач с визуальной зоной вставки */}
       <div ref={containerRef} className="task-list__container">
         <div className="task-list__items">
+          {/* Если placeholderIndex равен 0 – вставляем зону перед первым элементом */}
+          {placeholderIndex === 0 && <div className="insertion-zone" />}
           {tasks.map((task, index) => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              index={index}
-              activeId={activeId}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-              onEdit={handleEditTask}
-              onDelete={handleDeleteTask}
-              onStatusChange={handleStatusChange}
-            />
+            <React.Fragment key={task.id}>
+              <TaskItem
+                task={task}
+                index={index}
+                activeId={activeId}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onEdit={handleEditTask}
+                onDelete={handleDeleteTask}
+                onStatusChange={handleStatusChange}
+              />
+              {/* Если placeholderIndex равен index+1, то после элемента показываем инсершн-зону */}
+              {placeholderIndex === index + 1 && (
+                <div className="insertion-zone" />
+              )}
+            </React.Fragment>
           ))}
         </div>
       </div>
