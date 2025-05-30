@@ -28,7 +28,6 @@ const priorityColors = {
 
 function TaskItem({
   task,
-  index,
   activeId,
   onDragStart,
   onDragEnd,
@@ -214,11 +213,10 @@ export default function TaskList() {
     const container = containerRef.current;
     if (!container) return;
     const onPointerMove = (e: PointerEvent) => {
-      if (!activeId) return; // обновляем только когда перетаскивание активно
-      // Получаем положение указателя и список элементов
+      if (!activeId) return;
       const pointerY = e.clientY;
       const items = Array.from(container.querySelectorAll(".task-item"));
-      let index = items.length; // по умолчанию – вставка в конец
+      let index = items.length;
       for (let i = 0; i < items.length; i++) {
         const itemRect = items[i].getBoundingClientRect();
         const itemCenter = itemRect.top + itemRect.height / 2;
@@ -233,7 +231,7 @@ export default function TaskList() {
     return () => {
       container.removeEventListener("pointermove", onPointerMove);
     };
-  }, [activeId, tasks]);
+  }, [activeId]);
 
   const handleAddTask = () => {
     if (!newTask.title) return;
@@ -292,29 +290,31 @@ export default function TaskList() {
           const fromIndex = tasks.findIndex((t) => t.id === sourceData.id);
           if (fromIndex === -1) return;
 
-          let toIndex: number;
-          // Если мы уже вычислили index через pointermove – используем его
-          if (placeholderIndex !== null) {
-            toIndex = placeholderIndex;
-          } else {
-            // Фолбэк: вычисляем индекс на основании координат drop
-            const items = Array.from(container.querySelectorAll(".task-item"));
-            const dropY = location.current.input.clientY;
-            toIndex = items.length;
-            for (let i = 0; i < items.length; i++) {
-              const itemRect = items[i].getBoundingClientRect();
-              const itemCenter = itemRect.top + itemRect.height / 2;
-              if (dropY < itemCenter) {
-                toIndex = i;
-                break;
+          const toIndex =
+            placeholderIndex ??
+            (() => {
+              const items = Array.from(
+                container.querySelectorAll(".task-item")
+              );
+              const dropY = location.current.input.clientY;
+              let index = items.length;
+              for (let i = 0; i < items.length; i++) {
+                const itemRect = items[i].getBoundingClientRect();
+                const itemCenter = itemRect.top + itemRect.height / 2;
+                if (dropY < itemCenter) {
+                  index = i;
+                  break;
+                }
               }
-            }
-          }
+              return index;
+            })();
+
           if (fromIndex === toIndex) return;
+
           setTasks((prev) => {
             const updated = [...prev];
             const [moved] = updated.splice(fromIndex, 1);
-            updated.splice(toIndex - 1, 0, moved);
+            updated.splice(toIndex, 0, moved);
             return updated;
           });
           setPlaceholderIndex(null);
