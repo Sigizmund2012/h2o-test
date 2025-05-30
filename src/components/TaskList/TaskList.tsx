@@ -1,10 +1,10 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import {
-  draggable,
   dropTargetForElements,
   monitorForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
+import { TaskItem } from "./TaskItem";
 import "./TaskList.scss";
 
 interface Task {
@@ -18,81 +18,6 @@ interface Task {
 interface DragData {
   type: "task";
   id: string;
-}
-
-const priorityColors = {
-  high: "#FF4B4B",
-  medium: "#FFB84B",
-  low: "#4BFF4B",
-};
-
-function TaskItem({
-  task,
-  activeId,
-  onDragStart,
-  onDragEnd,
-  onEdit,
-  onDelete,
-  onStatusChange,
-}: Readonly<{
-  task: Task;
-  index: number;
-  activeId: string | null;
-  onDragStart: (id: string) => void;
-  onDragEnd: () => void;
-  onEdit: (task: Task) => void;
-  onDelete: (id: string) => void;
-  onStatusChange: (id: string, status: Task["status"]) => void;
-}>) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    return combine(
-      draggable({
-        element: el,
-        getInitialData: () => ({ type: "task", id: task.id }),
-        onDragStart: () => onDragStart(task.id),
-        onDrop: onDragEnd,
-      })
-    );
-  }, [task.id, onDragStart, onDragEnd]);
-
-  return (
-    <div
-      ref={ref}
-      className={`task-item${
-        activeId === task.id ? " task-item--dragging" : ""
-      }`}
-    >
-      <div
-        className="task-item__priority"
-        style={{ backgroundColor: priorityColors[task.priority] }}
-      />
-      <div className="task-item__content">
-        <h3 className="task-item__title">{task.title}</h3>
-        <p className="task-item__description">{task.description}</p>
-      </div>
-      <div className="task-item__status">
-        <select
-          value={task.status}
-          onChange={(e) =>
-            onStatusChange(task.id, e.target.value as Task["status"])
-          }
-        >
-          <option value="todo">К выполнению</option>
-          <option value="in-progress">В процессе</option>
-          <option value="done">Выполнено</option>
-        </select>
-      </div>
-      <div className="task-item__actions">
-        <button onClick={() => onEdit(task)}>Редактировать</button>
-        <button onClick={() => onDelete(task.id)}>Удалить</button>
-      </div>
-    </div>
-  );
 }
 
 const initialTasks: Task[] = [
@@ -192,14 +117,15 @@ export default function TaskList() {
     priority: "medium",
     status: "todo",
   });
-  // Состояние для хранения текущего индекса вставки
   const [placeholderIndex, setPlaceholderIndex] = useState<number | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     return combine(
       dropTargetForElements({
@@ -209,11 +135,13 @@ export default function TaskList() {
       monitorForElements({
         onDragStart: ({ source }) => {
           const sourceData = source.data as unknown as DragData;
-          console.log("Drag start:", sourceData.id);
           setActiveId(sourceData.id);
         },
         onDrag: ({ location }) => {
-          if (!activeId) return;
+          if (!activeId) {
+            return;
+          }
+
           const pointerY = location.current.input.clientY;
           const items = Array.from(container.querySelectorAll(".task-item"));
           let index = items.length;
@@ -225,13 +153,14 @@ export default function TaskList() {
               break;
             }
           }
-          console.log("Setting placeholder index:", index);
           setPlaceholderIndex(index);
         },
         onDrop: ({ source, location }) => {
           const sourceData = source.data as unknown as DragData;
           const fromIndex = tasks.findIndex((t) => t.id === sourceData.id);
-          if (fromIndex === -1) return;
+          if (fromIndex === -1) {
+            return;
+          }
 
           const toIndex =
             placeholderIndex ??
@@ -252,19 +181,19 @@ export default function TaskList() {
               return index;
             })();
 
-          if (fromIndex === toIndex) return;
+          if (fromIndex === toIndex) {
+            return;
+          }
 
           setTasks((prev) => {
             const updated = [...prev];
             const [moved] = updated.splice(fromIndex, 1);
-            // Если перетаскиваемый элемент был выше целевой позиции,
-            // нужно уменьшить индекс на 1, так как элемент уже удален из массива
             const adjustedToIndex = fromIndex < toIndex ? toIndex - 1 : toIndex;
             updated.splice(adjustedToIndex, 0, moved);
             return updated;
           });
           setPlaceholderIndex(null);
-          setActiveId(null); // Сбрасываем activeId сразу после дропа
+          setActiveId(null);
         },
       })
     );
@@ -276,12 +205,14 @@ export default function TaskList() {
 
   const handleDragEnd = useCallback(() => {
     document.body.style.userSelect = "";
-    setActiveId(null); // Дополнительная страховка, activeId сбрасывается после завершения перетаскивания
+    setActiveId(null);
     setPlaceholderIndex(null);
   }, []);
 
   const handleAddTask = () => {
-    if (!newTask.title) return;
+    if (!newTask.title) {
+      return;
+    }
     const task: Task = {
       id: Date.now().toString(),
       title: newTask.title,
@@ -307,7 +238,9 @@ export default function TaskList() {
   };
 
   const handleSaveEdit = () => {
-    if (!editingTask) return;
+    if (!editingTask) {
+      return;
+    }
     setTasks(
       tasks.map((task) => (task.id === editingTask.id ? editingTask : task))
     );
@@ -326,7 +259,6 @@ export default function TaskList() {
     <div className="task-list">
       <h1 className="heading">Список задач</h1>
 
-      {/* Форма добавления новой задачи */}
       <div className="task-list__add-form">
         <input
           type="text"
@@ -357,7 +289,6 @@ export default function TaskList() {
         <button onClick={handleAddTask}>Добавить задачу</button>
       </div>
 
-      {/* Модалка редактирования */}
       {editingTask && (
         <div className="task-list__edit-modal">
           <div className="modal-content">
@@ -396,7 +327,6 @@ export default function TaskList() {
         </div>
       )}
 
-      {/* Список задач с визуальной зоной вставки */}
       <div ref={containerRef} className="task-list__container">
         <div className="task-list__items">
           {tasks.map((task, index) => (
