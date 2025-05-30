@@ -1,11 +1,37 @@
 @use "../../_variables" as *;
 
 .insertion-zone {
-  height: 20px;
-  border: 2px dashed #0079bf;
-  margin: 10px 0;
-}
+  height: 4px;
+  background-color: #0079bf;
+  margin: 8px 0;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  position: relative;
 
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #0079bf;
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #0079bf;
+    border-radius: 50%;
+  }
+}
 
 .task-list {
   padding: 20px;
