@@ -1,7 +1,40 @@
+// Colors
+$color-primary: #30898a;
+$color-primary-hover: #54d3c2;
+$color-danger: #f44336;
+$color-danger-hover: #d32f2f;
+$color-info: #2196f3;
+$color-info-hover: #1976d2;
+
+// Text colors
+$color-text-primary: #333;
+$color-text-secondary: #666;
+
+// Background colors
+$color-bg-primary: #fff;
+$color-bg-secondary: #f5f5f5;
+
+// Border colors
+$color-border: #ddd;
+
+// Shadow
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+// Priority colors
+$priority-high: #ff4b4b;
+$priority-medium: #ffb84b;
+$priority-low: #30898a;
+
+// Status colors
+$status-todo: #ff4b4b;
+$status-in-progress: #ffb84b;
+$status-done: #30898a;
+
+// Modal overlay
+$modal-overlay: rgba(0, 0, 0, 0.5);
+
 // Text colors
 $color-heading: #2d4258;
-$color-text-primary: #323f47;
-$color-text-secondary: #d2d1d1;
 $color-text-tertiary: #6d7986;
 $color-text-tooltip: #8c8c8c;
 $color-text-light: #989fa3;
@@ -10,7 +43,6 @@ $color-text-light: #989fa3;
 $color-white: #fff;
 $color-background: #f8f8f8;
 $color-active-indicator: #54d3c2;
-$color-danger: #fc5c65;
 
 // Gradients and transparencies
 $color-gradient-start: #54d3c2;
