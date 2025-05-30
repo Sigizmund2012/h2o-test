@@ -13,7 +13,19 @@ interface Task {
 const priorityColors = {
   high: "#FF4B4B",
   medium: "#FFB84B",
-  low: "#4BFF4B",
+  low: "#30898a",
+};
+
+const statusLabels = {
+  todo: "К выполнению",
+  "in-progress": "В процессе",
+  done: "Выполнено",
+};
+
+const statusColors = {
+  todo: "#FF4B4B",
+  "in-progress": "#FFB84B",
+  done: "#30898a",
 };
 
 interface TaskItemProps {
@@ -24,7 +36,6 @@ interface TaskItemProps {
   onDragEnd: () => void;
   onEdit: (task: Task) => void;
   onDelete: (id: string) => void;
-  onStatusChange: (id: string, status: Task["status"]) => void;
 }
 
 export function TaskItem({
@@ -34,7 +45,6 @@ export function TaskItem({
   onDragEnd,
   onEdit,
   onDelete,
-  onStatusChange,
 }: Readonly<TaskItemProps>) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -61,25 +71,26 @@ export function TaskItem({
         activeId === task.id ? " task-item--dragging" : ""
       }`}
     >
-      <div
-        className="task-item__priority"
-        style={{ backgroundColor: priorityColors[task.priority] }}
-      />
       <div className="task-item__content">
         <h3 className="task-item__title">{task.title}</h3>
-        <p className="task-item__description">{task.description}</p>
       </div>
-      <div className="task-item__status">
-        <select
-          value={task.status}
-          onChange={(e) =>
-            onStatusChange(task.id, e.target.value as Task["status"])
-          }
+      <div className="task-item__badges">
+        <div
+          className="task-item__priority"
+          style={{ backgroundColor: priorityColors[task.priority] }}
         >
-          <option value="todo">К выполнению</option>
-          <option value="in-progress">В процессе</option>
-          <option value="done">Выполнено</option>
-        </select>
+          {task.priority === "high"
+            ? "Высокий"
+            : task.priority === "medium"
+            ? "Средний"
+            : "Низкий"}
+        </div>
+        <div
+          className="task-item__status"
+          style={{ backgroundColor: statusColors[task.status] }}
+        >
+          {statusLabels[task.status]}
+        </div>
       </div>
       <div className="task-item__actions">
         <button onClick={() => onEdit(task)}>Редактировать</button>

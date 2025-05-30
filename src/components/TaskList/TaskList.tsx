@@ -247,14 +247,6 @@ export default function TaskList() {
     setEditingTask(null);
   };
 
-  const handleStatusChange = (id: string, newStatus: Task["status"]) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, status: newStatus } : task
-      )
-    );
-  };
-
   return (
     <div className="task-list">
       <h1 className="heading">Список задач</h1>
@@ -273,19 +265,34 @@ export default function TaskList() {
             setNewTask({ ...newTask, description: e.target.value })
           }
         />
-        <select
-          value={newTask.priority}
-          onChange={(e) =>
-            setNewTask({
-              ...newTask,
-              priority: e.target.value as Task["priority"],
-            })
-          }
-        >
-          <option value="high">Высокий</option>
-          <option value="medium">Средний</option>
-          <option value="low">Низкий</option>
-        </select>
+        <div className="form-row">
+          <select
+            value={newTask.priority}
+            onChange={(e) =>
+              setNewTask({
+                ...newTask,
+                priority: e.target.value as Task["priority"],
+              })
+            }
+          >
+            <option value="high">Высокий приоритет</option>
+            <option value="medium">Средний приоритет</option>
+            <option value="low">Низкий приоритет</option>
+          </select>
+          <select
+            value={newTask.status}
+            onChange={(e) =>
+              setNewTask({
+                ...newTask,
+                status: e.target.value as Task["status"],
+              })
+            }
+          >
+            <option value="todo">К выполнению</option>
+            <option value="in-progress">В процессе</option>
+            <option value="done">Выполнено</option>
+          </select>
+        </div>
         <button onClick={handleAddTask}>Добавить задачу</button>
       </div>
 
@@ -306,19 +313,34 @@ export default function TaskList() {
                 setEditingTask({ ...editingTask, description: e.target.value })
               }
             />
-            <select
-              value={editingTask.priority}
-              onChange={(e) =>
-                setEditingTask({
-                  ...editingTask,
-                  priority: e.target.value as Task["priority"],
-                })
-              }
-            >
-              <option value="high">Высокий</option>
-              <option value="medium">Средний</option>
-              <option value="low">Низкий</option>
-            </select>
+            <div className="form-row">
+              <select
+                value={editingTask.priority}
+                onChange={(e) =>
+                  setEditingTask({
+                    ...editingTask,
+                    priority: e.target.value as Task["priority"],
+                  })
+                }
+              >
+                <option value="high">Высокий приоритет</option>
+                <option value="medium">Средний приоритет</option>
+                <option value="low">Низкий приоритет</option>
+              </select>
+              <select
+                value={editingTask.status}
+                onChange={(e) =>
+                  setEditingTask({
+                    ...editingTask,
+                    status: e.target.value as Task["status"],
+                  })
+                }
+              >
+                <option value="todo">К выполнению</option>
+                <option value="in-progress">В процессе</option>
+                <option value="done">Выполнено</option>
+              </select>
+            </div>
             <div className="modal-actions">
               <button onClick={handleSaveEdit}>Сохранить</button>
               <button onClick={() => setEditingTask(null)}>Отмена</button>
@@ -340,7 +362,6 @@ export default function TaskList() {
                 onDragEnd={handleDragEnd}
                 onEdit={handleEditTask}
                 onDelete={handleDeleteTask}
-                onStatusChange={handleStatusChange}
               />
             </React.Fragment>
           ))}
