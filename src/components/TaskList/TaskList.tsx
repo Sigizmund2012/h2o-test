@@ -257,26 +257,27 @@ export default function TaskList() {
           setTasks((prev) => {
             const updated = [...prev];
             const [moved] = updated.splice(fromIndex, 1);
-            updated.splice(toIndex, 0, moved);
+            // Если перетаскиваемый элемент был выше целевой позиции,
+            // нужно уменьшить индекс на 1, так как элемент уже удален из массива
+            const adjustedToIndex = fromIndex < toIndex ? toIndex - 1 : toIndex;
+            updated.splice(adjustedToIndex, 0, moved);
             return updated;
           });
           setPlaceholderIndex(null);
-        },
-        onDragEnd: () => {
-          console.log("Drag end");
-          setActiveId(null);
-          setPlaceholderIndex(null);
+          setActiveId(null); // Сбрасываем activeId сразу после дропа
         },
       })
     );
   }, [tasks, placeholderIndex, activeId]);
 
-  const handleDragStart = useCallback((id: string) => {
+  const handleDragStart = useCallback(() => {
     document.body.style.userSelect = "none";
   }, []);
 
   const handleDragEnd = useCallback(() => {
     document.body.style.userSelect = "";
+    setActiveId(null); // Дополнительная страховка, activeId сбрасывается после завершения перетаскивания
+    setPlaceholderIndex(null);
   }, []);
 
   const handleAddTask = () => {
