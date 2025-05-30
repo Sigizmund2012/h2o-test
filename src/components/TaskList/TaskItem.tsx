@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
+import { colors } from "../../constants/colors";
 
 interface Task {
   id: string;
@@ -11,9 +12,9 @@ interface Task {
 }
 
 const priorityColors = {
-  high: "#FF4B4B",
-  medium: "#FFB84B",
-  low: "#30898a",
+  high: colors.priority.high,
+  medium: colors.priority.medium,
+  low: colors.priority.low,
 };
 
 const statusLabels = {
@@ -23,9 +24,9 @@ const statusLabels = {
 };
 
 const statusColors = {
-  todo: "#FF4B4B",
-  "in-progress": "#FFB84B",
-  done: "#30898a",
+  todo: colors.status.todo,
+  "in-progress": colors.status["in-progress"],
+  done: colors.status.done,
 };
 
 interface TaskItemProps {
