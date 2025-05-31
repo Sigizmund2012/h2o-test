@@ -4,16 +4,8 @@ import {
   monitorForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import { TaskItem } from "./TaskItem";
+import { TaskItem, type Task } from "./TaskItem";
 import "./TaskList.scss";
-
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  priority: "high" | "medium" | "low";
-  status: "todo" | "in-progress" | "done";
-}
 
 interface DragData {
   type: "task";

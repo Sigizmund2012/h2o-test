@@ -3,7 +3,7 @@ import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { colors } from "../../constants/colors";
 
-interface Task {
+export interface Task {
   id: string;
   title: string;
   description: string;
