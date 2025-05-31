@@ -249,24 +249,27 @@ export default function TaskList() {
 
   return (
     <div className="task-list">
-      <h1 className="heading">Список задач</h1>
+      <h1 className="task-list__heading">Список задач</h1>
 
       <div className="task-list__add-form">
         <input
           type="text"
+          className="task-list__input"
           placeholder="Название задачи"
           value={newTask.title}
           onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
         />
         <textarea
+          className="task-list__textarea"
           placeholder="Описание задачи"
           value={newTask.description}
           onChange={(e) =>
             setNewTask({ ...newTask, description: e.target.value })
           }
         />
-        <div className="form-row">
+        <div className="task-list__form-row">
           <select
+            className="task-list__select"
             value={newTask.priority}
             onChange={(e) =>
               setNewTask({
@@ -280,6 +283,7 @@ export default function TaskList() {
             <option value="low">Низкий приоритет</option>
           </select>
           <select
+            className="task-list__select"
             value={newTask.status}
             onChange={(e) =>
               setNewTask({
@@ -293,14 +297,20 @@ export default function TaskList() {
             <option value="done">Выполнено</option>
           </select>
         </div>
-        <button onClick={handleAddTask}>Добавить задачу</button>
+        <button
+          className="task-list__button task-list__button--add"
+          onClick={handleAddTask}
+        >
+          Добавить задачу
+        </button>
       </div>
 
       {editingTask && (
-        <div className="task-list__edit-modal">
-          <div className="modal-content">
-            <h3>Редактировать задачу</h3>
+        <div className="task-list__modal">
+          <div className="task-list__modal-content">
+            <h3 className="task-list__modal-title">Редактировать задачу</h3>
             <input
+              className="task-list__input"
               type="text"
               value={editingTask.title}
               onChange={(e) =>
@@ -308,13 +318,15 @@ export default function TaskList() {
               }
             />
             <textarea
+              className="task-list__textarea"
               value={editingTask.description}
               onChange={(e) =>
                 setEditingTask({ ...editingTask, description: e.target.value })
               }
             />
-            <div className="form-row">
+            <div className="task-list__form-row">
               <select
+                className="task-list__select"
                 value={editingTask.priority}
                 onChange={(e) =>
                   setEditingTask({
@@ -328,6 +340,7 @@ export default function TaskList() {
                 <option value="low">Низкий приоритет</option>
               </select>
               <select
+                className="task-list__select"
                 value={editingTask.status}
                 onChange={(e) =>
                   setEditingTask({
@@ -341,9 +354,19 @@ export default function TaskList() {
                 <option value="done">Выполнено</option>
               </select>
             </div>
-            <div className="modal-actions">
-              <button onClick={handleSaveEdit}>Сохранить</button>
-              <button onClick={() => setEditingTask(null)}>Отмена</button>
+            <div className="task-list__modal-actions">
+              <button
+                className="task-list__button task-list__button--save"
+                onClick={handleSaveEdit}
+              >
+                Сохранить
+              </button>
+              <button
+                className="task-list__button task-list__button--cancel"
+                onClick={() => setEditingTask(null)}
+              >
+                Отмена
+              </button>
             </div>
           </div>
         </div>
@@ -353,7 +376,9 @@ export default function TaskList() {
         <div className="task-list__items">
           {tasks.map((task, index) => (
             <React.Fragment key={task.id}>
-              {placeholderIndex === index && <div className="insertion-zone" />}
+              {placeholderIndex === index && (
+                <div className="task-list__insertion-zone" />
+              )}
               <TaskItem
                 task={task}
                 index={index}
@@ -366,7 +391,7 @@ export default function TaskList() {
             </React.Fragment>
           ))}
           {placeholderIndex === tasks.length && (
-            <div className="insertion-zone" />
+            <div className="task-list__insertion-zone" />
           )}
         </div>
       </div>

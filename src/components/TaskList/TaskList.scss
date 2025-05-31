@@ -1,16 +1,9 @@
 @use "../../_variables" as *;
 
-.insertion-zone {
-  margin: 10px 0;
-  height: 2px;
-  border-radius: 1px;
-  background: $color-info;
-}
-
 .task-list {
   margin: 0 39px;
 
-  .heading {
+  &__heading {
     margin-bottom: 20px;
   }
 
@@ -19,48 +12,66 @@
     padding: 20px;
     border-radius: 8px;
     background: $color-bg-secondary;
+  }
 
-    input,
-    textarea,
-    select {
-      margin-bottom: 10px;
-      padding: 8px;
+  &__input,
+  &__textarea,
+  &__select {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+  }
+
+  &__textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  &__form-row {
+    display: flex;
+    margin-bottom: 10px;
+    gap: 10px;
+
+    .task-list__select {
+      flex: 1;
+      margin-bottom: 0;
+    }
+  }
+
+  &__button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background: $color-primary;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background: $color-primary-hover;
+    }
+
+    &--add {
       width: 100%;
-      border: 1px solid $color-border;
-      border-radius: 4px;
     }
 
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .form-row {
-      display: flex;
-      margin-bottom: 10px;
-      gap: 10px;
-
-      select {
-        flex: 1;
-        margin-bottom: 0;
-      }
-    }
-
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
+    &--save {
       background: $color-primary;
-      color: $color-white;
-      cursor: pointer;
-
       &:hover {
         background: $color-primary-hover;
       }
     }
+
+    &--cancel {
+      background: $color-danger;
+      &:hover {
+        background: $color-danger-hover;
+      }
+    }
   }
 
-  &__edit-modal {
+  &__modal {
     position: fixed;
     top: 0;
     right: 0;
@@ -71,73 +82,22 @@
     justify-content: center;
     background: $modal-overlay;
 
-    .modal-content {
+    &-content {
       padding: 20px;
       max-width: 500px;
       width: 90%;
       border-radius: 8px;
       background: $color-bg-primary;
+    }
 
-      h3 {
-        margin-top: 0;
-      }
+    &-title {
+      margin-top: 0;
+    }
 
-      input,
-      textarea,
-      select {
-        margin-bottom: 10px;
-        padding: 8px;
-        width: 100%;
-        border: 1px solid $color-border;
-        border-radius: 4px;
-      }
-
-      textarea {
-        min-height: 100px;
-        resize: vertical;
-      }
-
-      .form-row {
-        display: flex;
-        margin-bottom: 10px;
-        gap: 10px;
-
-        select {
-          flex: 1;
-          margin-bottom: 0;
-        }
-      }
-
-      .modal-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-
-        button {
-          padding: 8px 16px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-
-          &:first-child {
-            background: $color-primary;
-            color: white;
-
-            &:hover {
-              background: $color-primary-hover;
-            }
-          }
-
-          &:last-child {
-            background: $color-danger;
-            color: white;
-
-            &:hover {
-              background: $color-danger-hover;
-            }
-          }
-        }
-      }
+    &-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
     }
   }
 
@@ -149,6 +109,13 @@
 
   &__items {
     padding: 10px;
+  }
+
+  &__insertion-zone {
+    margin: 10px 0;
+    height: 2px;
+    border-radius: 1px;
+    background: $color-info;
   }
 }
 
