@@ -17,7 +17,6 @@ This project is a test assignment for H2O company, implementing a financial dash
 ## Features
 
 - Interactive financial charts with multiple metrics
-- Responsive dashboard layout
 - Russian language interface
 - BEM methodology for styling
 - Color variables and theming support
