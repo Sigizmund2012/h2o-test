@@ -20,95 +20,10 @@ interface DragData {
   id: string;
 }
 
-const initialTasks: Task[] = [
-  {
-    id: "1",
-    title: "Подготовить презентацию",
-    description: "Создать презентацию для встречи с клиентом",
-    priority: "high",
-    status: "todo",
-  },
-  {
-    id: "2",
-    title: "Согласовать бюджет",
-    description: "Согласовать бюджет проекта с финансовым отделом",
-    priority: "medium",
-    status: "in-progress",
-  },
-  {
-    id: "3",
-    title: "Обновить документацию",
-    description: "Обновить техническую документацию проекта",
-    priority: "low",
-    status: "done",
-  },
-  {
-    id: "4",
-    title: "Провести код-ревью",
-    description: "Проверить код новых фич и оставить комментарии",
-    priority: "high",
-    status: "todo",
-  },
-  {
-    id: "5",
-    title: "Оптимизировать производительность",
-    description: "Проанализировать и улучшить время загрузки страниц",
-    priority: "medium",
-    status: "in-progress",
-  },
-  {
-    id: "6",
-    title: "Написать тесты",
-    description: "Добавить unit-тесты для новых компонентов",
-    priority: "high",
-    status: "todo",
-  },
-  {
-    id: "7",
-    title: "Обновить зависимости",
-    description: "Обновить версии пакетов и исправить конфликты",
-    priority: "low",
-    status: "done",
-  },
-  {
-    id: "8",
-    title: "Рефакторинг кода",
-    description: "Улучшить структуру кода и удалить дублирование",
-    priority: "medium",
-    status: "in-progress",
-  },
-  {
-    id: "9",
-    title: "Добавить анимации",
-    description: "Улучшить UX с помощью плавных переходов",
-    priority: "low",
-    status: "todo",
-  },
-  {
-    id: "10",
-    title: "Исправить баги",
-    description: "Исправить критические ошибки в продакшене",
-    priority: "high",
-    status: "in-progress",
-  },
-  {
-    id: "11",
-    title: "Улучшить SEO",
-    description: "Оптимизировать мета-теги и структуру страниц",
-    priority: "medium",
-    status: "todo",
-  },
-  {
-    id: "12",
-    title: "Добавить аналитику",
-    description: "Интегрировать Google Analytics и настроить события",
-    priority: "low",
-    status: "done",
-  },
-];
-
 export default function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [newTask, setNewTask] = useState<Partial<Task>>({
@@ -120,6 +35,25 @@ export default function TaskList() {
   const [placeholderIndex, setPlaceholderIndex] = useState<number | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch("/api/tasks.json");
+        if (!response.ok) {
+          throw new Error("Failed to fetch tasks");
+        }
+        const data = await response.json();
+        setTasks(data.tasks);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -246,6 +180,14 @@ export default function TaskList() {
     );
     setEditingTask(null);
   };
+
+  if (isLoading) {
+    return <div className="task-list__loading">Loading tasks...</div>;
+  }
+
+  if (error) {
+    return <div className="task-list__error">Error: {error}</div>;
+  }
 
   return (
     <div className="task-list">

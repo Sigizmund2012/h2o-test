@@ -1,0 +1,88 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Подготовить презентацию",
+      "description": "Создать презентацию для встречи с клиентом",
+      "priority": "high",
+      "status": "todo"
+    },
+    {
+      "id": "2",
+      "title": "Согласовать бюджет",
+      "description": "Согласовать бюджет проекта с финансовым отделом",
+      "priority": "medium",
+      "status": "in-progress"
+    },
+    {
+      "id": "3",
+      "title": "Обновить документацию",
+      "description": "Обновить техническую документацию проекта",
+      "priority": "low",
+      "status": "done"
+    },
+    {
+      "id": "4",
+      "title": "Провести код-ревью",
+      "description": "Проверить код новых фич и оставить комментарии",
+      "priority": "high",
+      "status": "todo"
+    },
+    {
+      "id": "5",
+      "title": "Оптимизировать производительность",
+      "description": "Проанализировать и улучшить время загрузки страниц",
+      "priority": "medium",
+      "status": "in-progress"
+    },
+    {
+      "id": "6",
+      "title": "Написать тесты",
+      "description": "Добавить unit-тесты для новых компонентов",
+      "priority": "high",
+      "status": "todo"
+    },
+    {
+      "id": "7",
+      "title": "Обновить зависимости",
+      "description": "Обновить версии пакетов и исправить конфликты",
+      "priority": "low",
+      "status": "done"
+    },
+    {
+      "id": "8",
+      "title": "Рефакторинг кода",
+      "description": "Улучшить структуру кода и удалить дублирование",
+      "priority": "medium",
+      "status": "in-progress"
+    },
+    {
+      "id": "9",
+      "title": "Добавить анимации",
+      "description": "Улучшить UX с помощью плавных переходов",
+      "priority": "low",
+      "status": "todo"
+    },
+    {
+      "id": "10",
+      "title": "Исправить баги",
+      "description": "Исправить критические ошибки в продакшене",
+      "priority": "high",
+      "status": "in-progress"
+    },
+    {
+      "id": "11",
+      "title": "Улучшить SEO",
+      "description": "Оптимизировать мета-теги и структуру страниц",
+      "priority": "medium",
+      "status": "todo"
+    },
+    {
+      "id": "12",
+      "title": "Добавить аналитику",
+      "description": "Интегрировать Google Analytics и настроить события",
+      "priority": "low",
+      "status": "done"
+    }
+  ]
+}

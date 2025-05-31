@@ -7,6 +7,20 @@
     margin-bottom: 20px;
   }
 
+  &__loading,
+  &__error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    font-size: 1.2rem;
+    color: $color-text-secondary;
+  }
+
+  &__error {
+    color: $color-danger;
+  }
+
   &__add-form {
     margin-bottom: 20px;
     padding: 20px;
