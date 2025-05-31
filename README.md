@@ -11,6 +11,8 @@ This project is a test assignment for H2O company, implementing a financial dash
 - **TypeScript** - JavaScript with syntax for types
 - **SCSS** - CSS preprocessor with variables and mixins
 - **Recharts** - Composable charting library built on React components
+- **React Big Calendar** - Calendar component used in CalendarPage
+- **Pragmatic Drag and Drop** - Drag and drop functionality for TaskListPage
 
 ## Features
 
