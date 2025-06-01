@@ -9,6 +9,7 @@ interface Email {
   preview: string;
   date: string;
   read: boolean;
+  body: string;
 }
 
 export default function MailboxPage() {
@@ -47,6 +48,10 @@ export default function MailboxPage() {
         emails.map((e) => (e.id === email.id ? { ...e, read: true } : e))
       );
     }
+  };
+
+  const formatEmailBody = (body: string) => {
+    return body.split("\n").map((line, index) => <p key={index}>{line}</p>);
   };
 
   if (isLoading) {
@@ -109,7 +114,7 @@ export default function MailboxPage() {
                 </div>
               </div>
               <div className="email-detail__content">
-                {selectedEmail.preview}
+                {formatEmailBody(selectedEmail.body)}
               </div>
             </div>
           )}
