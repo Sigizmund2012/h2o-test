@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import User from "../components/User/User";
 import "./MailboxPage.scss";
 
@@ -12,133 +12,33 @@ interface Email {
 }
 
 export default function MailboxPage() {
-  const [emails, setEmails] = useState<Email[]>([
-    {
-      id: 1,
-      from: "Иван Петров",
-      subject: "Обновление проекта",
-      preview:
-        "Здравствуйте! Хочу поделиться последними обновлениями по проекту...",
-      date: "10:30",
-      read: false,
-    },
-    {
-      id: 2,
-      from: "Анна Сидорова",
-      subject: "Завтрашняя встреча",
-      preview: "Напоминаю о нашей командной встрече завтра в 14:00...",
-      date: "Вчера",
-      read: true,
-    },
-    {
-      id: 3,
-      from: "ООО ТехноСофт",
-      subject: "Ваш заказ #12345",
-      preview: "Спасибо за ваш заказ! Мы начали его обработку...",
-      date: "Вчера",
-      read: false,
-    },
-    {
-      id: 4,
-      from: "HR Департамент",
-      subject: "Обновление политики компании",
-      preview: "Уважаемые коллеги, сообщаем об обновлении внутренних правил...",
-      date: "Пн",
-      read: true,
-    },
-    {
-      id: 5,
-      from: "Алексей Козлов",
-      subject: "Отчет по продажам",
-      preview: "Привет! Прикрепляю еженедельный отчет по продажам...",
-      date: "Пн",
-      read: false,
-    },
-    {
-      id: 6,
-      from: "Маркетинг",
-      subject: "Новая кампания",
-      preview:
-        "Команда маркетинга подготовила план новой рекламной кампании...",
-      date: "Сб",
-      read: true,
-    },
-    {
-      id: 7,
-      from: "IT Поддержка",
-      subject: "Обновление системы",
-      preview: "Уведомляем о плановом обновлении системы в выходные...",
-      date: "Пт",
-      read: false,
-    },
-    {
-      id: 8,
-      from: "Елена Морозова",
-      subject: "Презентация проекта",
-      preview:
-        "Добрый день! Готова презентация нового проекта, давайте обсудим...",
-      date: "Чт",
-      read: true,
-    },
-    {
-      id: 9,
-      from: "Бухгалтерия",
-      subject: "Декларация за 1 квартал",
-      preview: "Напоминаем о необходимости сдать отчетность до конца месяца...",
-      date: "Ср",
-      read: false,
-    },
-    {
-      id: 10,
-      from: "Конференция DevConf",
-      subject: "Подтверждение регистрации",
-      preview: "Спасибо за регистрацию на конференцию DevConf 2024...",
-      date: "Вт",
-      read: true,
-    },
-    {
-      id: 11,
-      from: "Сергей Иванов",
-      subject: "Вопрос по API",
-      preview: "Здравствуйте! У меня возник вопрос по интеграции API...",
-      date: "Пн",
-      read: false,
-    },
-    {
-      id: 12,
-      from: "Клиентский отдел",
-      subject: "Новый клиент",
-      preview: "Поступила заявка от нового клиента, требуется обработка...",
-      date: "Пн",
-      read: true,
-    },
-    {
-      id: 13,
-      from: "Юридический отдел",
-      subject: "Обновление договора",
-      preview: "Требуется ваше подтверждение изменений в договоре...",
-      date: "Вс",
-      read: false,
-    },
-    {
-      id: 14,
-      from: "Отдел разработки",
-      subject: "Релиз v2.1",
-      preview: "Планируем выпуск новой версии продукта на следующей неделе...",
-      date: "Сб",
-      read: true,
-    },
-    {
-      id: 15,
-      from: "Тренинг-центр",
-      subject: "Новые курсы",
-      preview: "Представляем новые обучающие курсы для сотрудников...",
-      date: "Пт",
-      read: false,
-    },
-  ]);
-
+  const [emails, setEmails] = useState<Email[]>([]);
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEmails = async () => {
+      try {
+        const response = await fetch("/api/emails.json");
+        if (!response.ok) {
+          throw new Error("Не удалось загрузить письма");
+        }
+        const data = await response.json();
+        setEmails(data.emails);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Произошла ошибка при загрузке писем"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEmails();
+  }, []);
 
   const handleEmailClick = (email: Email) => {
     setSelectedEmail(email);
@@ -148,6 +48,14 @@ export default function MailboxPage() {
       );
     }
   };
+
+  if (isLoading) {
+    return <div className="mailbox-page__loading">Загрузка писем...</div>;
+  }
+
+  if (error) {
+    return <div className="mailbox-page__error">{error}</div>;
+  }
 
   return (
     <div className="mailbox-page">
