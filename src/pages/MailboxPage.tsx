@@ -55,65 +55,81 @@ export default function MailboxPage() {
   };
 
   if (isLoading) {
-    return <div className="mailbox-page__loading">Загрузка писем...</div>;
+    return <div className="mailbox mailbox--loading">Загрузка писем...</div>;
   }
 
   if (error) {
-    return <div className="mailbox-page__error">{error}</div>;
+    return <div className="mailbox mailbox--error">{error}</div>;
   }
 
   return (
-    <div className="mailbox-page">
-      <header className="mailbox-header">
-        <div className="mailbox-header__search">
-          <input type="text" placeholder="Поиск писем" />
+    <div className="mailbox">
+      <header className="mailbox__header">
+        <div className="mailbox__search">
+          <input
+            type="text"
+            className="mailbox__search-input"
+            placeholder="Поиск писем"
+          />
         </div>
         <User />
       </header>
 
-      <div className="mailbox-content">
-        <aside className="mailbox-sidebar">
-          <button className="compose-button">Написать</button>
-          <nav className="mailbox-nav">
-            <a href="#" className="active">
+      <div className="mailbox__content">
+        <aside className="mailbox__sidebar">
+          <button className="mailbox__compose-button">Написать</button>
+          <nav className="mailbox__nav">
+            <a href="#" className="mailbox__nav-link mailbox__nav-link--active">
               Входящие
             </a>
-            <a href="#">Отправленные</a>
-            <a href="#">Черновики</a>
-            <a href="#">Корзина</a>
+            <a href="#" className="mailbox__nav-link">
+              Отправленные
+            </a>
+            <a href="#" className="mailbox__nav-link">
+              Черновики
+            </a>
+            <a href="#" className="mailbox__nav-link">
+              Корзина
+            </a>
           </nav>
         </aside>
 
-        <main className="mailbox-main">
-          <div className="email-list">
+        <main className="mailbox__main">
+          <div className="mailbox__email-list">
             {emails.map((email) => (
               <div
                 key={email.id}
-                className={`email-item ${!email.read ? "unread" : ""} ${
-                  selectedEmail?.id === email.id ? "selected" : ""
+                className={`mailbox__email-item ${
+                  !email.read ? "mailbox__email-item--unread" : ""
+                } ${
+                  selectedEmail?.id === email.id
+                    ? "mailbox__email-item--selected"
+                    : ""
                 }`}
                 onClick={() => handleEmailClick(email)}
               >
-                <div className="email-item__from">{email.from}</div>
-                <div className="email-item__content">
-                  <div className="email-item__subject">{email.subject}</div>
-                  <div className="email-item__preview">{email.preview}</div>
+                <div className="mailbox__email-from">{email.from}</div>
+                <div className="mailbox__email-content">
+                  <div className="mailbox__email-subject">{email.subject}</div>
+                  <div className="mailbox__email-preview">{email.preview}</div>
                 </div>
-                <div className="email-item__date">{email.date}</div>
+                <div className="mailbox__email-date">{email.date}</div>
               </div>
             ))}
           </div>
 
           {selectedEmail && (
-            <div className="email-detail">
-              <div className="email-detail__header">
-                <h2>{selectedEmail.subject}</h2>
-                <div className="email-detail__meta">
+            <div className="mailbox__email-detail">
+              <div className="mailbox__email-header">
+                <h2 className="mailbox__email-title">
+                  {selectedEmail.subject}
+                </h2>
+                <div className="mailbox__email-meta">
                   <span className="from">От: {selectedEmail.from}</span>
                   <span className="date">{selectedEmail.date}</span>
                 </div>
               </div>
-              <div className="email-detail__content">
+              <div className="mailbox__email-body">
                 {formatEmailBody(selectedEmail.body)}
               </div>
             </div>
