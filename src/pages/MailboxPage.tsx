@@ -14,9 +14,11 @@ interface Email {
 
 export default function MailboxPage() {
   const [emails, setEmails] = useState<Email[]>([]);
+  const [filteredEmails, setFilteredEmails] = useState<Email[]>([]);
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchEmails = async () => {
@@ -27,6 +29,7 @@ export default function MailboxPage() {
         }
         const data = await response.json();
         setEmails(data.emails);
+        setFilteredEmails(data.emails);
       } catch (err) {
         setError(
           err instanceof Error
@@ -41,17 +44,48 @@ export default function MailboxPage() {
     fetchEmails();
   }, []);
 
+  useEffect(() => {
+    const searchEmails = () => {
+      if (!searchQuery.trim()) {
+        setFilteredEmails(emails);
+        return;
+      }
+
+      const query = searchQuery.toLowerCase();
+      const filtered = emails.filter(
+        (email) =>
+          email.from.toLowerCase().includes(query) ||
+          email.subject.toLowerCase().includes(query) ||
+          email.preview.toLowerCase().includes(query) ||
+          email.body.toLowerCase().includes(query)
+      );
+      setFilteredEmails(filtered);
+    };
+
+    searchEmails();
+  }, [searchQuery, emails]);
+
   const handleEmailClick = (email: Email) => {
     setSelectedEmail(email);
     if (!email.read) {
-      setEmails(
-        emails.map((e) => (e.id === email.id ? { ...e, read: true } : e))
+      const updatedEmails = emails.map((e) =>
+        e.id === email.id ? { ...e, read: true } : e
+      );
+      setEmails(updatedEmails);
+      setFilteredEmails(
+        filteredEmails.map((e) =>
+          e.id === email.id ? { ...e, read: true } : e
+        )
       );
     }
   };
 
   const formatEmailBody = (body: string) => {
     return body.split("\n").map((line, index) => <p key={index}>{line}</p>);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
   };
 
   if (isLoading) {
@@ -70,6 +104,8 @@ export default function MailboxPage() {
             type="text"
             className="mailbox__search-input"
             placeholder="Поиск писем"
+            value={searchQuery}
+            onChange={handleSearchChange}
           />
         </div>
         <User />
@@ -96,26 +132,34 @@ export default function MailboxPage() {
 
         <main className="mailbox__main">
           <div className="mailbox__email-list">
-            {emails.map((email) => (
-              <div
-                key={email.id}
-                className={`mailbox__email-item ${
-                  !email.read ? "mailbox__email-item--unread" : ""
-                } ${
-                  selectedEmail?.id === email.id
-                    ? "mailbox__email-item--selected"
-                    : ""
-                }`}
-                onClick={() => handleEmailClick(email)}
-              >
-                <div className="mailbox__email-from">{email.from}</div>
-                <div className="mailbox__email-content">
-                  <div className="mailbox__email-subject">{email.subject}</div>
-                  <div className="mailbox__email-preview">{email.preview}</div>
+            {filteredEmails.length === 0 ? (
+              <div className="mailbox__no-results">Письма не найдены</div>
+            ) : (
+              filteredEmails.map((email) => (
+                <div
+                  key={email.id}
+                  className={`mailbox__email-item ${
+                    !email.read ? "mailbox__email-item--unread" : ""
+                  } ${
+                    selectedEmail?.id === email.id
+                      ? "mailbox__email-item--selected"
+                      : ""
+                  }`}
+                  onClick={() => handleEmailClick(email)}
+                >
+                  <div className="mailbox__email-from">{email.from}</div>
+                  <div className="mailbox__email-content">
+                    <div className="mailbox__email-subject">
+                      {email.subject}
+                    </div>
+                    <div className="mailbox__email-preview">
+                      {email.preview}
+                    </div>
+                  </div>
+                  <div className="mailbox__email-date">{email.date}</div>
                 </div>
-                <div className="mailbox__email-date">{email.date}</div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           {selectedEmail && (

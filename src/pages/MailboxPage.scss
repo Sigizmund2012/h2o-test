@@ -117,6 +117,13 @@
     background-color: $color-white;
   }
 
+  &__no-results {
+    padding: 24px;
+    text-align: center;
+    color: $color-text-tertiary;
+    font-size: 14px;
+  }
+
   &__email-item {
     display: flex;
     padding: 12px 16px;
