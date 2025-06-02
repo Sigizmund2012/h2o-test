@@ -1,0 +1,213 @@
+@use "../../_variables" as *;
+
+.mailbox {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-background;
+
+  &--loading,
+  &--error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: $color-text-primary;
+    font-size: 16px;
+  }
+
+  &--error {
+    color: $color-danger;
+  }
+
+  &__search {
+    flex: 1;
+    margin: 10px;
+    max-width: 590px;
+  }
+
+  &__search-input {
+    padding: 8px 16px;
+    width: 100%;
+    border: 1px solid $color-border;
+    border-radius: 8px;
+    background-color: $color-bg-secondary;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      background-color: $color-white;
+      box-shadow: $shadow-sm;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+  }
+
+  &__sidebar {
+    padding: 16px;
+    width: 250px;
+    border-right: 1px solid $color-border;
+    background-color: $color-white;
+  }
+
+  &__compose-button {
+    margin-bottom: 16px;
+    padding: 12px 24px;
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    background-color: $color-active-nav;
+    font-weight: 500;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+
+    &:hover {
+      box-shadow: $shadow-sm;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+  &__nav-link {
+    padding: 8px 12px;
+    border-radius: 0 16px 16px 0;
+    color: $color-text-primary;
+    text-decoration: none;
+    font-size: 14px;
+
+    &:hover {
+      background-color: $color-bg-secondary;
+    }
+
+    &--active {
+      background-color: $color-active-nav;
+      color: $color-primary;
+      font-weight: 500;
+    }
+  }
+
+  &__main {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  &__email-list {
+    overflow-y: auto;
+    width: 350px;
+    border-right: 1px solid $color-border;
+    background-color: $color-white;
+  }
+
+  &__no-results {
+    padding: 24px;
+    color: $color-text-tertiary;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  &__email-item {
+    display: flex;
+    padding: 12px 16px;
+    border-bottom: 1px solid $color-bg-secondary;
+    cursor: pointer;
+
+    gap: 12px;
+
+    &:hover {
+      box-shadow: $shadow-sm;
+    }
+
+    &--unread {
+      background-color: $color-background;
+      font-weight: 500;
+    }
+
+    &--selected {
+      background-color: $color-bg-secondary;
+    }
+  }
+
+  &__email-from {
+    overflow: hidden;
+    width: 120px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  &__email-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__email-subject {
+    overflow: hidden;
+    margin-bottom: 4px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  &__email-preview {
+    overflow: hidden;
+    color: $color-text-tertiary;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  &__email-date {
+    color: $color-text-tertiary;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  &__email-detail {
+    overflow-y: auto;
+    flex: 1;
+    padding: 24px;
+    background-color: $color-white;
+  }
+
+  &__email-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__email-title {
+    margin: 0 0 16px 0;
+    color: $color-heading;
+    font-size: 22px;
+  }
+
+  &__email-meta {
+    display: flex;
+    justify-content: space-between;
+    color: $color-text-tertiary;
+    font-size: 14px;
+  }
+
+  &__email-body {
+    color: $color-text-primary;
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.6;
+
+    p {
+      margin: 0 0 12px 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
