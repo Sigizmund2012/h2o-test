@@ -1,23 +1,14 @@
 @use "../_variables" as *;
 
 .mailbox-page {
-  display: flex;
-  flex-direction: column;
+  padding: 39px;
   height: 100vh;
-  background-color: $color-background;
+  border-radius: 56px 0 0 0;
+  background-color: $color-white;
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 8px 16px;
-    height: 64px;
-    border-bottom: 1px solid $color-border;
-    background-color: $color-white;
-  }
-
-  &__mails {
-    flex: 1;
-    margin-right: 16px;
   }
 }

@@ -1,16 +1,15 @@
 @use "../_variables" as *;
 
 .calendar-page {
-  display: grid;
-  grid-template-rows: 154px 1fr;
+  padding: 39px;
   height: 100vh;
-  background-color: $color-white;
   border-radius: 56px 0 0 0;
+  background-color: $color-white;
 
   &__header {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: flex-end;
   }
 
   &__content {

@@ -37,7 +37,6 @@ export default function Calendar() {
 
   return (
     <div className="calendar-container">
-      <h1 className="heading">Календарь</h1>
       <div className="calendar-wrapper">
         <BigCalendar
           localizer={localizer}

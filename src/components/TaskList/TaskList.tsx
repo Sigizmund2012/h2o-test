@@ -183,8 +183,6 @@ export default function TaskList() {
 
   return (
     <div className="task-list">
-      <h1 className="task-list__heading">Список задач</h1>
-
       <div className="task-list__add-form">
         <input
           type="text"

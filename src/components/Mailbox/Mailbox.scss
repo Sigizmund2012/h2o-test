@@ -3,7 +3,6 @@
 .mailbox {
   display: flex;
   flex-direction: column;
-  background-color: $color-background;
 
   &--loading,
   &--error {
@@ -131,7 +130,7 @@
     }
 
     &--selected {
-      background-color: $color-bg-secondary;
+      background-color: $color-active-indicator;
     }
   }
 

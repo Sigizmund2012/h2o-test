@@ -1,12 +1,6 @@
 @use "../../_variables" as *;
 
 .task-list {
-  margin: 0 39px;
-
-  &__heading {
-    margin-bottom: 20px;
-  }
-
   &__loading,
   &__error {
     display: flex;

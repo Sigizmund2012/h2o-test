@@ -1,3 +1,5 @@
+@use "./_variables" as *;
+
 .app-container {
   display: grid;
   min-height: 100vh;
@@ -6,4 +8,15 @@
   grid-template-rows: 1fr;
   gap: 0px;
   grid-template-areas: "sidebar main";
+}
+
+.page-heading {
+  color: $color-text-primary;
+  text-align: left;
+  letter-spacing: -0.56px;
+  font-weight: 800;
+  font-style: normal;
+  font-stretch: normal;
+  font-size: 28px;
+  line-height: 1.57;
 }

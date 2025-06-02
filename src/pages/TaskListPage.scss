@@ -1,11 +1,10 @@
 @use "../_variables" as *;
 
 .task-list-page {
-  display: grid;
-  grid-template-rows: 154px 1fr;
   height: 100vh;
   background-color: $color-white;
   border-radius: 56px 0 0 0;
+  padding: 39px;
 
   &__header {
     display: flex;

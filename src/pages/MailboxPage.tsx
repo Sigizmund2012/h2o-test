@@ -9,6 +9,7 @@ export default function MailboxPage() {
         <User />
       </header>
       <div className="mailbox-page__mails">
+        <h1 className="page-heading">Почтовый ящик</h1>
         <Mailbox />
       </div>
     </div>
