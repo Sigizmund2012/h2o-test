@@ -36,8 +36,8 @@ export default function Calendar() {
   const [currentView, setCurrentView] = useState<View>("month"); // 'month', 'week', 'day', 'agenda'
 
   return (
-    <div className="calendar-container">
-      <div className="calendar-wrapper">
+    <div className="calendar">
+      <div className="calendar__wrapper">
         <BigCalendar
           localizer={localizer}
           culture="ru"
