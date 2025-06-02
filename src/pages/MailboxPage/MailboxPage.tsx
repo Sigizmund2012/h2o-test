@@ -1,5 +1,5 @@
-import User from "../components/User/User";
-import Mailbox from "../components/Mailbox/Mailbox";
+import User from "../../components/User/User";
+import Mailbox from "../../components/Mailbox/Mailbox";
 import "./MailboxPage.scss";
 
 export default function MailboxPage() {

@@ -1,5 +1,5 @@
-import Calendar from "../components/Calendar/Calendar";
-import User from "../components/User/User";
+import Calendar from "../../components/Calendar/Calendar";
+import User from "../../components/User/User";
 import "./CalendarPage.scss";
 
 export default function CalendarPage() {

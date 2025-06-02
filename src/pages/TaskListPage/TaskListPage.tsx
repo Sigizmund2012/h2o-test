@@ -1,5 +1,5 @@
-import TaskList from "../components/TaskList/TaskList";
-import User from "../components/User/User";
+import TaskList from "../../components/TaskList/TaskList";
+import User from "../../components/User/User";
 import "./TaskListPage.scss";
 
 export default function TaskListPage() {

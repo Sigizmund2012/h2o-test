@@ -1,0 +1,14 @@
+@use "../../_variables" as *;
+
+.mailbox-page {
+  padding: 39px;
+  height: 100vh;
+  border-radius: 56px 0 0 0;
+  background-color: $color-white;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

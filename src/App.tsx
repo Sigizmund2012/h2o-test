@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Main from "./components/Main/Main";
-import CalendarPage from "./pages/CalendarPage";
-import TaskListPage from "./pages/TaskListPage";
-import MailboxPage from "./pages/MailboxPage";
+import CalendarPage from "./pages/CalendarPage/CalendarPage";
+import TaskListPage from "./pages/TaskListPage/TaskListPage";
+import MailboxPage from "./pages/MailboxPage/MailboxPage";
 import "./App.scss";
 
 function App() {

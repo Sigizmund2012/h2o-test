@@ -1,6 +1,6 @@
-@use "../_variables" as *;
+@use "../../_variables" as *;
 
-.mailbox-page {
+.calendar-page {
   padding: 39px;
   height: 100vh;
   border-radius: 56px 0 0 0;
@@ -10,5 +10,9 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+
+  &__content {
+    height: 100%;
   }
 }
