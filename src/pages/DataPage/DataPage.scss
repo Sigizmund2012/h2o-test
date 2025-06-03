@@ -11,30 +11,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    color: #666;
+    font-size: 19px;
+    color: $color-text-secondary;
   }
 
   &--error {
-    color: #dc3545;
+    color: $color-danger;
   }
 
   &__title {
-    margin-bottom: 2rem;
-    color: #333;
+    margin-bottom: 32px;
+    color: $color-text-primary;
   }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    gap: 32px;
   }
 
   &__card {
-    padding: 1.5rem;
+    padding: 24px;
     border-radius: 8px;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: $color-white;
+    box-shadow: $shadow-sm;
     transition: transform 0.2s ease;
 
     &:hover {
@@ -46,32 +46,32 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
   }
 
   &__card-title {
     margin: 0;
-    color: #2c3e50;
+    color: $color-heading;
     overflow-wrap: anywhere;
   }
 
   &__card-category {
-    padding: 0.25rem 0.75rem;
+    padding: 4px 12px;
     border-radius: 16px;
-    background: #e9ecef;
-    color: #495057;
-    font-size: 0.875rem;
+    background: $color-bg-secondary;
+    color: $color-text-tertiary;
+    font-size: 14px;
   }
 
   &__card-content {
-    margin-bottom: 1rem;
-    color: #666;
+    margin-bottom: 16px;
+    color: $color-text-secondary;
     line-height: 1.5;
   }
 
   &__card-footer {
-    color: #888;
-    font-size: 0.875rem;
+    color: $color-text-light;
+    font-size: 14px;
   }
 
   &__card-date {
