@@ -5,6 +5,7 @@ import CalendarPage from "./pages/CalendarPage/CalendarPage";
 import TaskListPage from "./pages/TaskListPage/TaskListPage";
 import MailboxPage from "./pages/MailboxPage/MailboxPage";
 import TeamPage from "./pages/TeamPage/TeamPage";
+import DataPage from "./pages/DataPage/DataPage";
 import "./App.scss";
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
           <Route path="/list" element={<TaskListPage />} />
           <Route path="/mailbox" element={<MailboxPage />} />
           <Route path="/team" element={<TeamPage />} />
-          <Route path="/database" element={<Main />} />
+          <Route path="/database" element={<DataPage />} />
           <Route path="/chart" element={<Main />} />
           <Route path="/settings" element={<Main />} />
         </Routes>
