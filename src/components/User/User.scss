@@ -41,7 +41,7 @@
   }
   &__profile {
     position: absolute;
-    top: 70%;
+    top: 100%;
     right: 0;
     left: 0;
     display: none;
@@ -49,9 +49,9 @@
     a {
       display: block;
       padding: 10px;
+      background-color: $color-white;
       color: #000;
       text-decoration: none;
-      background-color: $color-white;
     }
   }
   &_profile-show {
