@@ -1,0 +1,98 @@
+@use "../../variables" as *;
+@use "../../mixins" as *;
+
+.settings-page {
+  @include page-body;
+
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+
+  &__content {
+    padding: 0 32px 32px;
+  }
+
+  &__title {
+    margin-bottom: 32px;
+
+    @include page-heading;
+  }
+
+  &__sections {
+    display: grid;
+
+    gap: 32px;
+  }
+
+  &__section {
+    padding: 24px;
+    border-radius: 8px;
+    background: $color-white;
+    box-shadow: $shadow-sm;
+  }
+
+  &__section-title {
+    margin: 0 0 24px;
+    color: $color-heading;
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  &__form {
+    display: grid;
+
+    gap: 24px;
+  }
+
+  &__form-group {
+    display: grid;
+
+    gap: 12px;
+  }
+
+  &__label {
+    color: $color-text-primary;
+    font-weight: 500;
+  }
+
+  &__select {
+    padding: 8px 12px;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+    background-color: $color-white;
+    color: $color-text-primary;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: $color-primary;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+    }
+  }
+
+  &__checkbox-group {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    label {
+      color: $color-text-secondary;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
+
+  &__checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+}

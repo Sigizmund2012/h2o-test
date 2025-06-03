@@ -6,6 +6,7 @@ import TaskListPage from "./pages/TaskListPage/TaskListPage";
 import MailboxPage from "./pages/MailboxPage/MailboxPage";
 import TeamPage from "./pages/TeamPage/TeamPage";
 import DataPage from "./pages/DataPage/DataPage";
+import SettingsPage from "./pages/SettingsPage/SettingsPage";
 import "./App.scss";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           <Route path="/team" element={<TeamPage />} />
           <Route path="/database" element={<DataPage />} />
           <Route path="/chart" element={<Main />} />
-          <Route path="/settings" element={<Main />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </div>
     </Router>
