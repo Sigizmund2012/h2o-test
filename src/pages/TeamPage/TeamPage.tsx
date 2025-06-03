@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import User from "../../components/User/User";
 import "./TeamPage.scss";
 
 interface TeamMember {
@@ -47,6 +48,9 @@ export default function TeamPage() {
 
   return (
     <div className="team">
+      <div className="team__user">
+        <User />
+      </div>
       <h1 className="team__title">Наша команда</h1>
       <div className="team__grid">
         {teamMembers.map((member) => (

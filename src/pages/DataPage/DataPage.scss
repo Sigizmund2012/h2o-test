@@ -4,13 +4,18 @@
 .data-page {
   @include page-body;
 
+  &__user {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   &--loading,
   &--error {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 19px;
     color: $color-text-secondary;
+    font-size: 19px;
   }
 
   &--error {
@@ -23,6 +28,7 @@
 
   &__grid {
     display: grid;
+
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 32px;
   }
@@ -49,6 +55,7 @@
   &__card-title {
     margin: 0;
     color: $color-heading;
+
     overflow-wrap: anywhere;
   }
 

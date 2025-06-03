@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import User from "../../components/User/User";
 import "./DataPage.scss";
 
 interface KnowledgeItem {
@@ -43,6 +44,9 @@ export default function DataPage() {
 
   return (
     <div className="data-page">
+      <div className="data-page__user">
+        <User />
+      </div>
       <h1 className="data-page__title">База знаний компании</h1>
       <div className="data-page__grid">
         {knowledgeBase.map((item) => (

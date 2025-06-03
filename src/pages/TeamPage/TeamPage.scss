@@ -4,6 +4,12 @@
 .team {
   @include page-body;
 
+  &__user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
   &__title {
     @include page-heading;
   }
