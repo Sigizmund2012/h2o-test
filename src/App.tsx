@@ -4,6 +4,7 @@ import Main from "./components/Main/Main";
 import CalendarPage from "./pages/CalendarPage/CalendarPage";
 import TaskListPage from "./pages/TaskListPage/TaskListPage";
 import MailboxPage from "./pages/MailboxPage/MailboxPage";
+import TeamPage from "./pages/TeamPage/TeamPage";
 import "./App.scss";
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/list" element={<TaskListPage />} />
           <Route path="/mailbox" element={<MailboxPage />} />
-          <Route path="/team" element={<Main />} />
+          <Route path="/team" element={<TeamPage />} />
           <Route path="/database" element={<Main />} />
           <Route path="/chart" element={<Main />} />
           <Route path="/settings" element={<Main />} />
