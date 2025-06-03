@@ -1,63 +1,65 @@
 @use "../../variables" as *;
 
-.team-page {
+.team {
   padding: 39px;
   height: 100vh;
   border-radius: 56px 0 0 0;
   background-color: $color-white;
 
-  .team-grid {
+  &__grid {
     display: grid;
+    padding: 1rem;
+
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    padding: 1rem;
   }
 
-  .team-member-card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  &__member {
     overflow: hidden;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 
     &:hover {
       transform: translateY(-5px);
     }
+  }
 
-    .member-photo {
+  &__photo {
+    overflow: hidden;
+    width: 100%;
+    height: 250px;
+
+    img {
       width: 100%;
-      height: 250px;
-      overflow: hidden;
+      height: 100%;
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+      object-fit: cover;
     }
+  }
 
-    .member-info {
-      padding: 1.5rem;
+  &__info {
+    padding: 1.5rem;
+  }
 
-      h2 {
-        margin: 0;
-        color: #333;
-        font-size: 1.5rem;
-      }
+  &__name {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+  }
 
-      h3 {
-        margin: 0.5rem 0;
-        color: #666;
-        font-size: 1.1rem;
-        font-weight: 500;
-      }
+  &__position {
+    margin: 0.5rem 0;
+    color: #666;
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
 
-      p {
-        margin: 1rem 0 0;
-        color: #666;
-        line-height: 1.5;
-        font-size: 0.95rem;
-      }
-    }
+  &__bio {
+    margin: 1rem 0 0;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
 }

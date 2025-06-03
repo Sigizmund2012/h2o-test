@@ -38,26 +38,26 @@ export default function TeamPage() {
   }, []);
 
   if (isLoading) {
-    return <div className="team-page">Загрузка...</div>;
+    return <div className="team">Загрузка...</div>;
   }
 
   if (error) {
-    return <div className="team-page">Ошибка: {error}</div>;
+    return <div className="team">Ошибка: {error}</div>;
   }
 
   return (
-    <div className="team-page">
+    <div className="team">
       <h1 className="page-heading">Наша команда</h1>
-      <div className="team-grid">
+      <div className="team__grid">
         {teamMembers.map((member) => (
-          <div key={member.id} className="team-member-card">
-            <div className="member-photo">
+          <div key={member.id} className="team__member">
+            <div className="team__photo">
               <img src={member.photo} alt={member.name} />
             </div>
-            <div className="member-info">
-              <h2>{member.name}</h2>
-              <h3>{member.position}</h3>
-              <p>{member.bio}</p>
+            <div className="team__info">
+              <h2 className="team__name">{member.name}</h2>
+              <h3 className="team__position">{member.position}</h3>
+              <p className="team__bio">{member.bio}</p>
             </div>
           </div>
         ))}
