@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./User.scss";
+import { Link } from "react-router-dom";
 export default function User() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   function toggleDropdown() {
@@ -27,7 +28,7 @@ export default function User() {
         }
       >
         <a href="#">Профиль</a>
-        <a href="#">Настройки</a>
+        <Link to="/settings">Настройки</Link>
         <a href="#">Выйти</a>
       </div>
     </div>
