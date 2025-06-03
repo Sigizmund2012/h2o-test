@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import "./DataPage.scss";
 
 interface KnowledgeItem {
@@ -9,37 +9,41 @@ interface KnowledgeItem {
   lastUpdated: string;
 }
 
-const DataPage: React.FC = () => {
-  const knowledgeBase: KnowledgeItem[] = [
-    {
-      id: 1,
-      title: "Getting Started with Development",
-      category: "Development",
-      content:
-        "Basic guidelines for setting up development environment and tools.",
-      lastUpdated: "2024-03-20",
-    },
-    {
-      id: 2,
-      title: "Code Review Process",
-      category: "Processes",
-      content:
-        "Step-by-step guide for conducting code reviews and best practices.",
-      lastUpdated: "2024-03-19",
-    },
-    {
-      id: 3,
-      title: "Deployment Guidelines",
-      category: "DevOps",
-      content:
-        "Standard procedures for deploying applications to different environments.",
-      lastUpdated: "2024-03-18",
-    },
-  ];
+export default function DataPage() {
+  const [knowledgeBase, setKnowledgeBase] = useState<KnowledgeItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/database.json");
+        if (!response.ok) {
+          throw new Error("Ошибка при загрузке данных");
+        }
+        const data = await response.json();
+        setKnowledgeBase(data.knowledgeBase);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Произошла ошибка");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <div className="data-page">Загрузка...</div>;
+  }
+
+  if (error) {
+    return <div className="data-page">Ошибка: {error}</div>;
+  }
 
   return (
     <div className="data-page">
-      <h1>Company Knowledge Base</h1>
+      <h1>База знаний компании</h1>
       <div className="knowledge-grid">
         {knowledgeBase.map((item) => (
           <div key={item.id} className="knowledge-card">
@@ -49,13 +53,11 @@ const DataPage: React.FC = () => {
             </div>
             <p>{item.content}</p>
             <div className="card-footer">
-              <span>Last updated: {item.lastUpdated}</span>
+              <span>Последнее обновление: {item.lastUpdated}</span>
             </div>
           </div>
         ))}
       </div>
     </div>
   );
-};
-
-export default DataPage;
+}
