@@ -8,10 +8,10 @@
 
   &__grid {
     display: grid;
-    padding: 1rem;
+    padding: 16px;
 
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    gap: 32px;
   }
 
   &__member {
@@ -40,26 +40,26 @@
   }
 
   &__info {
-    padding: 1.5rem;
+    padding: 24px;
   }
 
   &__name {
     margin: 0;
     color: $color-black;
-    font-size: 1.5rem;
+    font-size: 24px;
   }
 
   &__position {
-    margin: 0.5rem 0;
+    margin: 8px 0;
     color: $color-grey;
     font-weight: 500;
-    font-size: 1.1rem;
+    font-size: 18px;
   }
 
   &__bio {
-    margin: 1rem 0 0;
+    margin: 16px 0 0;
     color: $color-grey;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 24px;
   }
 }
