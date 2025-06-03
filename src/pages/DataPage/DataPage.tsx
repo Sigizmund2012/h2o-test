@@ -34,26 +34,28 @@ export default function DataPage() {
   }, []);
 
   if (isLoading) {
-    return <div className="data-page">Загрузка...</div>;
+    return <div className="data-page data-page--loading">Загрузка...</div>;
   }
 
   if (error) {
-    return <div className="data-page">Ошибка: {error}</div>;
+    return <div className="data-page data-page--error">Ошибка: {error}</div>;
   }
 
   return (
     <div className="data-page">
-      <h1>База знаний компании</h1>
-      <div className="knowledge-grid">
+      <h1 className="data-page__title">База знаний компании</h1>
+      <div className="data-page__grid">
         {knowledgeBase.map((item) => (
-          <div key={item.id} className="knowledge-card">
-            <div className="card-header">
-              <h3>{item.title}</h3>
-              <span className="category">{item.category}</span>
+          <div key={item.id} className="data-page__card">
+            <div className="data-page__card-header">
+              <h3 className="data-page__card-title">{item.title}</h3>
+              <span className="data-page__card-category">{item.category}</span>
             </div>
-            <p>{item.content}</p>
-            <div className="card-footer">
-              <span>Последнее обновление: {item.lastUpdated}</span>
+            <p className="data-page__card-content">{item.content}</p>
+            <div className="data-page__card-footer">
+              <span className="data-page__card-date">
+                Последнее обновление: {item.lastUpdated}
+              </span>
             </div>
           </div>
         ))}
