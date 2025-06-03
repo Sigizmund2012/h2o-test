@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import "./TeamPage.scss";
 
 interface TeamMember {
@@ -9,97 +9,45 @@ interface TeamMember {
   photo: string;
 }
 
-const teamMembers: TeamMember[] = [
-  {
-    id: 1,
-    name: "Иван Петров",
-    position: "Руководитель проекта",
-    bio: "Опытный руководитель проектов с более чем 10-летним стажем в разработке программного обеспечения. Специализируется на гибких методологиях и управлении командами.",
-    photo: "https://randomuser.me/api/portraits/men/1.jpg",
-  },
-  {
-    id: 2,
-    name: "Анна Смирнова",
-    position: "Ведущий разработчик",
-    bio: "Full-stack разработчик с опытом работы в React и Node.js. Увлечена чистым кодом и пользовательским опытом.",
-    photo: "https://randomuser.me/api/portraits/women/2.jpg",
-  },
-  {
-    id: 3,
-    name: "Михаил Иванов",
-    position: "UI/UX дизайнер",
-    bio: "Креативный дизайнер с фокусом на принципах пользовательского дизайна и современных трендах интерфейсов.",
-    photo: "https://randomuser.me/api/portraits/men/3.jpg",
-  },
-  {
-    id: 4,
-    name: "Елена Кузнецова",
-    position: "Backend разработчик",
-    bio: "Специализируется на масштабируемой архитектуре и оптимизации баз данных. Эксперт в Python и Java.",
-    photo: "https://randomuser.me/api/portraits/women/4.jpg",
-  },
-  {
-    id: 5,
-    name: "Дмитрий Соколов",
-    position: "DevOps инженер",
-    bio: "Специалист по инфраструктуре с глубокими знаниями облачных сервисов и инструментов автоматизации.",
-    photo: "https://randomuser.me/api/portraits/men/5.jpg",
-  },
-  {
-    id: 6,
-    name: "Ольга Новикова",
-    position: "QA инженер",
-    bio: "Эксперт по обеспечению качества с фокусом на автоматизированном тестировании и непрерывной интеграции.",
-    photo: "https://randomuser.me/api/portraits/women/6.jpg",
-  },
-  {
-    id: 7,
-    name: "Алексей Морозов",
-    position: "Frontend разработчик",
-    bio: "Специалист по JavaScript с обширным опытом работы с современными frontend-фреймворками.",
-    photo: "https://randomuser.me/api/portraits/men/7.jpg",
-  },
-  {
-    id: 8,
-    name: "Мария Волкова",
-    position: "Data Scientist",
-    bio: "Эксперт в области машинного обучения и анализа данных. Кандидат технических наук.",
-    photo: "https://randomuser.me/api/portraits/women/8.jpg",
-  },
-  {
-    id: 9,
-    name: "Сергей Козлов",
-    position: "Мобильный разработчик",
-    bio: "Специалист по разработке iOS и Android приложений с фокусом на нативных решениях.",
-    photo: "https://randomuser.me/api/portraits/men/9.jpg",
-  },
-  {
-    id: 10,
-    name: "Екатерина Лебедева",
-    position: "Product Owner",
-    bio: "Эксперт по управлению продуктом с сильным бэкграундом в пользовательских исследованиях и анализе рынка.",
-    photo: "https://randomuser.me/api/portraits/women/10.jpg",
-  },
-  {
-    id: 11,
-    name: "Андрей Белов",
-    position: "Инженер по безопасности",
-    bio: "Специалист по кибербезопасности с опытом в обнаружении и предотвращении угроз.",
-    photo: "https://randomuser.me/api/portraits/men/11.jpg",
-  },
-  {
-    id: 12,
-    name: "Наталья Соколова",
-    position: "Технический писатель",
-    bio: "Опытный технический писатель, специализирующийся на документации API и пользовательских руководствах.",
-    photo: "https://randomuser.me/api/portraits/women/12.jpg",
-  },
-];
-
 export default function TeamPage() {
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        const response = await fetch("/api/team.json");
+        if (!response.ok) {
+          throw new Error("Не удалось загрузить данные команды");
+        }
+        const data = await response.json();
+        setTeamMembers(data.teamMembers);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Произошла ошибка при загрузке данных"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTeamMembers();
+  }, []);
+
+  if (isLoading) {
+    return <div className="team-page">Загрузка...</div>;
+  }
+
+  if (error) {
+    return <div className="team-page">Ошибка: {error}</div>;
+  }
+
   return (
     <div className="team-page">
-      <h1 className="team-heading">Наша команда</h1>
+      <h1 className="page-heading">Наша команда</h1>
       <div className="team-grid">
         {teamMembers.map((member) => (
           <div key={member.id} className="team-member-card">
