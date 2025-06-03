@@ -9,7 +9,7 @@ export default function CalendarPage() {
         <User />
       </div>
       <div className="calendar-page__content">
-        <h1 className="page-heading">Календарь</h1>
+        <h1 className="calendar-page__title">Календарь</h1>
         <Calendar />
       </div>
     </div>

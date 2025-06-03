@@ -1,10 +1,12 @@
-@use "../../_variables" as *;
+@use "../../variables" as *;
+@use "../../mixins" as *;
 
 .task-list-page {
-  height: 100vh;
-  background-color: $color-white;
-  border-radius: 56px 0 0 0;
-  padding: 39px;
+  @include page-body;
+
+  &__title {
+    @include page-heading;
+  }
 
   &__header {
     display: flex;

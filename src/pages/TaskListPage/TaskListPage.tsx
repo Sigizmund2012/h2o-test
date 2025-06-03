@@ -9,7 +9,7 @@ export default function TaskListPage() {
         <User />
       </div>
       <div className="task-list-page__content">
-        <h1 className="page-heading">Список задач</h1>
+        <h1 className="task-list-page__title">Список задач</h1>
         <TaskList />
       </div>
     </div>

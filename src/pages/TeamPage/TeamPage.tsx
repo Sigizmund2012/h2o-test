@@ -47,7 +47,7 @@ export default function TeamPage() {
 
   return (
     <div className="team">
-      <h1 className="page-heading">Наша команда</h1>
+      <h1 className="team__title">Наша команда</h1>
       <div className="team__grid">
         {teamMembers.map((member) => (
           <div key={member.id} className="team__member">

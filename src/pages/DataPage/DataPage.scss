@@ -1,10 +1,8 @@
 @use "../../variables" as *;
+@use "../../mixins" as *;
 
 .data-page {
-  padding: 39px;
-  height: 100vh;
-  border-radius: 56px 0 0 0;
-  background-color: $color-white;
+  @include page-body;
 
   &--loading,
   &--error {
@@ -20,8 +18,7 @@
   }
 
   &__title {
-    margin-bottom: 32px;
-    color: $color-text-primary;
+    @include page-heading;
   }
 
   &__grid {
